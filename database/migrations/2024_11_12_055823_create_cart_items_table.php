@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('product_id')->references('id')->on('products');
             $table->timestamp('created_at')->nullable();
             $table->integer('quantity');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 
