@@ -12,22 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 2000);
-            $table->string('slug', 2000);
-            $table->string('image', 2000)->nullable();
-            $table->string('image_mime', 45)->nullable();
-            $table->integer('image_size')->nullable();
-            $table->longText('description')->nullable();
+            $table->integer('total_price');
             $table->string('status', 45);
-            $table->integer('price');
-            
+
             // foreign key
             $table->foreignIdFor(User::class, 'created_by')->nullable();
             $table->foreignIdFor(User::class, 'updated_by')->nullable();
-            $table->softDeletes();
-            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
             $table->timestamps();
         });
     }
@@ -37,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('orders');
     }
 };
