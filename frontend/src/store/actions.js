@@ -12,9 +12,9 @@ export function getUser({commit}, data){
 export function login({ commit }, data) {
     return axiosClient.post('/login', data)
      .then(response => {
-        console.log('Response data:', response.data);
+        // console.log('Response data:', response.data);
         const userData = response.data.user;
-        console.log('User data:', userData);
+        // console.log('User data:', userData);
         if (userData && userData.id) {
           commit('setUser', userData);
           commit('setToken', response.data.token);
@@ -40,3 +40,27 @@ export function logout({commit}) {
         })
 }
 
+
+export function getProducts({commit, state}, {url = null, search = '', per_page, sort_field, sort_direction} = {}) {
+    commit('setProducts', [true])   // Tampilkan loading
+    url = url || '/products'    // Endpoint default
+    const params = {
+      per_page: state.products.limit
+    }
+
+    return axiosClient.get(url, {
+      params: {
+        ...params,
+        search,
+        per_page,
+        sort_field,
+        sort_direction
+      }
+    })
+        .then((response) => {
+          commit('setProducts', [false, response.data])   // Simpan data produk
+        })
+        .catch(() => {
+          commit('setProducts', [false])    // Sembunyikan loading jika gagal
+        })
+}

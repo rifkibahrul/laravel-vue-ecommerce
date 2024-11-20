@@ -8,15 +8,15 @@
                 Dashboard
             </span>
         </router-link>
-        <router-link :to="{name: 'app.products'}" class="flex items-center p-2 rounded transition-colors hover:bg-black/30">
+        <router-link :to="{name: 'app.product'}" class="flex items-center p-2 rounded transition-colors hover:bg-black/30">
             <span class="mr-2 text-gray-300">
-                <ViewListIcon class="w-5"/>
+                <CollectionIcon class="w-5"/>
             </span>
             <span class="text-xs">
                 Products
             </span>
         </router-link>
-        <router-link :to="{name: 'app.orders'}" class="flex items-center p-2 rounded transition-colors hover:bg-black/30">
+        <!-- <router-link :to="{name: 'app.orders'}" class="flex items-center p-2 rounded transition-colors hover:bg-black/30">
             <span class="mr-2 text-gray-300">
                 <ViewListIcon class="w-5"/>
             </span>
@@ -47,10 +47,10 @@
             <span class="text-xs">
                 Reports
             </span>
-        </router-link>
+        </router-link> -->
     </div>
 </template>
 
 <script setup>
-import {HomeIcon, UserGroupIcon, UsersIcon, ViewListIcon, ChartBarIcon} from '@heroicons/vue/outline'
+import {HomeIcon, UserGroupIcon, UsersIcon, CollectionIcon, ChartBarIcon} from '@heroicons/vue/outline'
 </script>

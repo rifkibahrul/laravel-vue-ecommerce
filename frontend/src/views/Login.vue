@@ -154,9 +154,4 @@ function login(){
     errorMsg.value = response.data.message;
   })
 }
-
-
-
-
-
 </script>

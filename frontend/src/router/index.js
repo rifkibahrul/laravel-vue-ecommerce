@@ -4,30 +4,35 @@ import Dashboard from "../views/Dashboard.vue";
 import Login from "../views/Login.vue";
 import RequestPassword from "../views/RequestPassword.vue";
 import ResetPassword from "../views/ResetPassword.vue";
-import GuestLayout from "../components/GuestLayout.vue";
 import AppLayout from "../components/AppLayout.vue";
 import store from "../store";
 import NotFound from "../views/NotFound.vue"
+import Product from "../views/Products/Products.vue"
 
 const routes = [
     {
+        path: '/',
+        redirect: '/app'
+    },
+    {
         path: '/app',
         name: 'app',
+        redirect: '/app/dashboard',
         component: AppLayout,
         meta: {
             requiresAuth: true  // perlu autentikasi atau login
         },
         children: [
             {
-                path: '/dashboard',
+                path: 'dashboard',
                 name: 'app.dashboard',
                 component: Dashboard
             },
-            // {
-            //     path: '/products',
-            //     name: 'app.products',
-            //     component: Products
-            // },
+            {
+                path: 'product',
+                name: 'app.product',
+                component: Product
+            },
         ]
     },
     {
