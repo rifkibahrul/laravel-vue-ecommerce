@@ -6,7 +6,7 @@
                 Add New Product
             </button>
           </div>
-          <ProductsTable />
+          <ProductsTable @clickEdit="updateProduct"/>
           <ProductsModal v-model="showProductModal" :product="productModel" @close="onModalClose" />
     </div>
 </template>
@@ -35,7 +35,7 @@ function showAddNewModal() {
   showProductModal.value = true
 }
 
-function editProduct(p) {
+function updateProduct(p) {
   store.dispatch('getProduct', p.id)
     .then(({data}) => {
       productModel.value = data

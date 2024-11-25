@@ -139,7 +139,7 @@
                                                         : 'text-gray-900',
                                                     'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                                 ]"
-                                                @click="editProduct(product)"
+                                                @click="updateProduct(product)"
                                             >
                                                 <PencilIcon
                                                     :active="active"
@@ -277,4 +277,14 @@ function getForPage(ev, link) {
     }
     getProducts(link.url);
 }
+
+function showAddNewModal() {
+    showProductModal.value = true;
+}
+
+// Edit data
+function updateProduct(p){
+    emit('clickEdit', p);
+}
+
 </script>

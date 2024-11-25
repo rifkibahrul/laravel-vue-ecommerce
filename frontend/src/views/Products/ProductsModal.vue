@@ -194,19 +194,45 @@ function formatRupiah(value) {
 }
 
 function onSubmit() {
-    loading.value = true;
-    store.dispatch("createProduct", product.value)
-        .then((response) => {
+    loading.value = true
+    if (product.value.id) {
+        store.dispatch('updateProduct', product.value)
+        .then(response => {
             loading.value = false;
-            if (response.status === 201) {
-                // TODO NOTIFICATION
-                store.dispatch("getProducts");
-                closeModal();
+            if (response.status === 200) {
+            // TODO show notification
+            store.dispatch('getProducts')
+            closeModal()
             }
         })
-        .catch((error) => {
-            loading.value = false;
-            console.error(error);
-        });
+    } else {
+        loading.value = true;
+        store.dispatch("createProduct", product.value)
+            .then((response) => {
+                loading.value = false;
+                if (response.status === 201) {
+                    // TODO NOTIFICATION
+                    store.dispatch("getProducts");
+                    closeModal();
+                }
+            })
+            .catch((error) => {
+                loading.value = false;
+                console.error(error);
+            });
+    }
 }
+
+onUpdated(() => {
+    product.value = {
+        id: props.product.id,
+        title: props.product.title,
+        image: props.product.image,
+        description: props.product.description,
+        price: props.product.price,
+        published: props.product.published,
+    }
+})
+
+
 </script>
