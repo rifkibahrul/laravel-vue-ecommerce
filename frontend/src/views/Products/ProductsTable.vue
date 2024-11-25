@@ -101,7 +101,7 @@
                         {{ product.title }}
                     </td>
                     <td class="border-b p-2">
-                        {{ product.price }}
+                        {{ formatRupiah(product.price) }}
                     </td>
                     <td class="border-b p-2">
                         {{ product.updated_at }}
@@ -285,6 +285,26 @@ function showAddNewModal() {
 // Edit data
 function updateProduct(p){
     emit('clickEdit', p);
+}
+
+function formatRupiah(value) {
+    if (!value) return "Rp0";
+    return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+    }).format(value);
+}
+
+function deleteProduct(product) {
+    if(!confirm(`Are you sure you want to delete the product?`)) {
+        return;
+    }
+    store.dispatch('deleteProduct', product.id)
+        .then(res => {
+            // TODO NOTIFICATION
+            store.dispatch('getProducts')
+        })
 }
 
 </script>

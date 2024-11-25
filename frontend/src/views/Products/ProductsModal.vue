@@ -42,11 +42,7 @@
                                     as="h3"
                                     class="text-lg leading-6 font-medium text-gray-900"
                                 >
-                                    {{
-                                        product.id
-                                            ? `Update product: "${props.product.title}"`
-                                            : "Create new Product"
-                                    }}
+                                    {{ product.id ? `Update product: "${props.product.title}"` : 'Create new Product' }}
                                 </DialogTitle>
                                 <button
                                     @click="closeModal()"
@@ -194,20 +190,20 @@ function formatRupiah(value) {
 }
 
 function onSubmit() {
-    loading.value = true
+    loading.value = true;
     if (product.value.id) {
-        store.dispatch('updateProduct', product.value)
-        .then(response => {
+        store.dispatch("updateProduct", product.value).then((response) => {
             loading.value = false;
             if (response.status === 200) {
-            // TODO show notification
-            store.dispatch('getProducts')
-            closeModal()
+                // TODO NOTIFICATION
+                store.dispatch("getProducts");
+                closeModal();
             }
-        })
+        });
     } else {
         loading.value = true;
-        store.dispatch("createProduct", product.value)
+        store
+            .dispatch("createProduct", product.value)
             .then((response) => {
                 loading.value = false;
                 if (response.status === 201) {
@@ -231,8 +227,6 @@ onUpdated(() => {
         description: props.product.description,
         price: props.product.price,
         published: props.product.published,
-    }
-})
-
-
+    };
+});
 </script>

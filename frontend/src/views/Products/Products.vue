@@ -18,11 +18,11 @@ import ProductsTable from './ProductsTable.vue';
 import ProductsModal from './ProductsModal.vue';
 
 const DEFAULT_PRODUCT = {
-    id: '',
-    title: '',
-    description: '',
-    image: '',
-    price: '',
+  id: '',
+  title: '',
+  description: '',
+  image: '',
+  price: ''
 }
 
 const products = computed(() => store.state.products);
@@ -31,7 +31,6 @@ const productModel = ref({...DEFAULT_PRODUCT})
 const showProductModal = ref(false);
 
 function showAddNewModal() {
-  // log
   showProductModal.value = true
 }
 
@@ -46,5 +45,4 @@ function updateProduct(p) {
 function onModalClose() {
   productModel.value = {...DEFAULT_PRODUCT}
 }
-
 </script>

@@ -85,7 +85,6 @@ export function getProduct({commit}, id) {
 }
 
 /* MEMPERBARUI DATA PRODUK */
-
 export function updateProduct({commit}, product) {
   const id = product.id;
   if (product.image instanceof File) {
@@ -103,3 +102,8 @@ export function updateProduct({commit}, product) {
 
   return axiosClient.post(`/products/${id}`, product);
 } 
+
+/* MENGHAPUS DATA PRODUK */
+export function deleteProduct({commit}, id) {
+  return axiosClient.delete(`/products/${id}`)
+}
