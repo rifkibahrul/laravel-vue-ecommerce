@@ -80,18 +80,13 @@
                     <td colspan="6">
                         <Spinner v-if="products.loading" />
                         <p v-else class="text-center py-8 text-gray-700">
-                            Tidak ada produk tersedia
+                            There are no products
                         </p>
                     </td>
                 </tr>
             </tbody>
             <tbody v-else>
-                <tr
-                    v-for="(product, index) of products.data"
-                    :key="product.id"
-                    class="animate-fade-in-down"
-                    :style="{ 'animation-delay': index * 0.1 + 's' }"
-                >
+                <tr v-for="product of products.data" v-bind:key="product.id">
                     <td class="border-b p-2">{{ product.id }}</td>
                     <td class="border-b p-2">
                         <img

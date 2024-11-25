@@ -1,7 +1,7 @@
 export default {
     user: {
         token: sessionStorage.getItem("TOKEN"),
-        data: {},
+        data: sessionStorage.getItem("USER_DATA")? JSON.parse(sessionStorage.getItem("USER_DATA")) : {},
     },
     products: {
         loading: false,

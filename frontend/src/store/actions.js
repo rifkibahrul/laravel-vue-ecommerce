@@ -40,7 +40,7 @@ export function logout({commit}) {
         })
 }
 
-
+/* MENAMPILKAN SEMUA PRODUK */
 export function getProducts({commit, state}, {url = null, search = '', per_page, sort_field, sort_direction} = {}) {
     commit('setProducts', [true])   // Tampilkan loading
     url = url || '/products'    // Endpoint default
@@ -63,4 +63,18 @@ export function getProducts({commit, state}, {url = null, search = '', per_page,
         .catch(() => {
           commit('setProducts', [false])    // Sembunyikan loading jika gagal
         })
+}
+
+/* MENAMBBAHKAN PRODUK */
+export function createProduct({commit}, product) {
+  if (product.image instanceof File) {
+    const form = new FormData();
+    form.append('title', product.title);
+    form.append('image', product.image);
+    form.append('description', product.description || '');
+    form.append('price', product.price);
+    form.append('published', product.published ? 1 : 0);
+    product = form;
+  }
+  return axiosClient.post('/products', product);
 }

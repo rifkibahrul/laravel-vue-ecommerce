@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Models\Product;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use GuzzleHttp\Psr7\UploadedFile;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ProductListResource;
@@ -34,15 +35,18 @@ class ProductController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $data = $request->validated();
-        $data['created_by'] = $request->user()->id();
-        $data['updated_by'] = $request->user()->id();
+        $data['created_by'] = $request->user()->id;
+        $data['updated_by'] = $request->user()->id;
 
         $image = $data['image'] ?? null;
-
+        // Check if image was given and save on local file system
         if ($image) {
             $relativePath = $this->saveImage($image);
             $data['image'] = URL::to(Storage::url($relativePath));
@@ -66,7 +70,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
         $data = $request->validate();
         $data['updated_by'] = $request->user()->id;
@@ -97,5 +101,18 @@ class ProductController extends Controller
         $product->delete();
 
         return response()->noContent();
+    }
+
+    private function saveImage(UploadedFile $image)
+    {
+        $path = 'images/' . Str::random();
+        if (!Storage::exists($path)) {
+            Storage::makeDirectory($path, 0755, true);
+        }
+        if (!Storage::putFileAS('public/' . $path, $image, $image->getClientOriginalName())) {
+            throw new \Exception("Unable to save file \"{$image->getClientOriginalName()}\"");
+        }
+
+        return $path . '/' . $image->getClientOriginalName();
     }
 }
