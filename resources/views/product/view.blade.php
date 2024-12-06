@@ -4,7 +4,8 @@
                     'slug' => $product->slug,
                     'image' => $product->image,
                     'title' => $product->title,
-                    'price' => $product->price
+                    'price' => $product->price,
+                    'addToCartUrl' => route('cart.add', $product),
                 ]) }})" class="container mx-auto">
         <div class="grid gap-6 grid-cols-1 lg:grid-cols-5">
             <div class="lg:col-span-3">
@@ -99,6 +100,7 @@
                         class="w-32 focus:border-purple-500 focus:outline-none rounded" />
                 </div>
                 <button
+                    @click="addToCart()"
                     class="btn-primary py-4 text-lg flex justify-center min-w-0 w-full mb-6 hover:bg-slate-400">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
