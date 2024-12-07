@@ -3,7 +3,7 @@ import "./bootstrap";
 import Alpine from "alpinejs";
 import collapse from "@alpinejs/collapse";
 // import { get, post } from "./http.js";
-import {post} from "./http.js"; 
+import { post, get } from "./http.js";
 
 Alpine.plugin(collapse);
 
@@ -55,9 +55,10 @@ document.addEventListener("alpine:init", async () => {
     // Pengelolaan item produk
     Alpine.data("productItem", (product) => {
         return {
-            product,    // Menyimpan data produk yang dierima sebagai parameter
-            addToCart(quantity = 1) {     // Fungsi untuk menambahkan item ke keranjang belanja
-                post(this.product.addToCartUrl, { quantity })   // Kirim permintaan POST ke 'addToCartUrl' dgn jumlah item yang ditentukan
+            product, // Menyimpan data produk yang dierima sebagai parameter
+            addToCart(quantity = 1) {
+                // Fungsi untuk menambahkan item ke keranjang belanja
+                post(this.product.addToCartUrl, { quantity }) // Kirim permintaan POST ke 'addToCartUrl' dgn jumlah item yang ditentukan
                     .then((result) => {
                         // Event 'cart-change' dengan jumlah item baru di keranjang
                         this.$dispatch("cart-change", { count: result.count });
@@ -70,14 +71,15 @@ document.addEventListener("alpine:init", async () => {
                         console.log(response);
                     });
             },
-            removeItemFromCart() {      // Fungsi untuk menghapus item dari keranjang
+            removeItemFromCart() {
+                // Fungsi untuk menghapus item dari keranjang
                 post(this.product.removeUrl).then((result) => {
                     this.$dispatch("notify", {
                         message: "The item was removed from cart",
                     });
                     this.$dispatch("cart-change", { count: result.count });
                     this.cartItems = this.cartItems.filter(
-                        (p) => p.id !== product.id      // Menghapus item dari daftar 'cartItems'
+                        (p) => p.id !== product.id // Menghapus item dari daftar 'cartItems'
                     );
                 });
             },
@@ -93,6 +95,23 @@ document.addEventListener("alpine:init", async () => {
             },
         };
     });
+
+    // Pengelolaan Provinsi dan Kota
+    Alpine.data("provinceCity", () => ({
+        listCity: [],
+        getCity(event) {
+            let provinceId = event.target.value;
+            if (provinceId) {
+                get("/cities?province_id=" + provinceId)
+                    .then((data) => {
+                        this.listCity = data;
+                    })
+                    .catch((error) => console.error(error));
+            } else {
+                this.listCity = [];
+            }
+        },
+    }));
 });
 
 Alpine.start();
