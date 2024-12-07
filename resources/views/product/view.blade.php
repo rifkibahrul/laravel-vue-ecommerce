@@ -100,7 +100,7 @@
                         class="w-32 focus:border-purple-500 focus:outline-none rounded" />
                 </div>
                 <button
-                    @click="addToCart()"
+                    @click="addToCart($refs.quantityEl.value)"
                     class="btn-primary py-4 text-lg flex justify-center min-w-0 w-full mb-6 hover:bg-slate-400">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
