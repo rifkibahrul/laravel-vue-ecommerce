@@ -105,6 +105,14 @@ document.addEventListener("alpine:init", async () => {
                 get("/cities?province_id=" + provinceId)
                     .then((data) => {
                         this.listCity = data;
+                        // Mengupdate nilai dari select kota
+                        document.getElementById("city").innerHTML = "";
+                        data.forEach((city) => {
+                            let option = document.createElement("option");
+                            option.value = city.city_id;
+                            option.text = city.city_name;
+                            document.getElementById("city").appendChild(option);
+                        });
                     })
                     .catch((error) => console.error(error));
             } else {
@@ -112,6 +120,29 @@ document.addEventListener("alpine:init", async () => {
             }
         },
     }));
+    // Alpine.data("provinceCity", () => ({
+    //     listCity: [],
+    //     getCity(event) {
+    //         let provinceId = event.target.value.split("__")[0];
+    //         if (provinceId) {
+    //             get("/cities?province_id=" + provinceId)
+    //                 .then((data) => {
+    //                     this.listCity = data;
+    //                     // Mengupdate nilai dari select kota
+    //                     document.getElementById("city").innerHTML = "";
+    //                     data.forEach((city) => {
+    //                         let option = document.createElement("option");
+    //                         option.value = city.city_id + "__" + city.city_name;
+    //                         option.text = city.city_name;
+    //                         document.getElementById("city").appendChild(option);
+    //                     });
+    //                 })
+    //                 .catch((error) => console.error(error));
+    //         } else {
+    //             this.listCity = [];
+    //         }
+    //     },
+    // }));
 });
 
 Alpine.start();

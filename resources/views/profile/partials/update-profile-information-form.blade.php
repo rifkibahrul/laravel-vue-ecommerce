@@ -47,6 +47,40 @@
             @endif
         </div>
 
+        <div class="flex space-x-4">
+            <div class="w-1/2">
+                <x-input-label for="first_name" :value="__('First Name')" />
+                <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $customer->first_name)" required autofocus autocomplete="first_name" />
+                <x-input-error class="mt-2" :messages="$errors->get('first_name')" />
+            </div>
+
+            <div class="w-1/2">
+                <x-input-label for="last_name" :value="__('Last Name')" />
+                <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $customer->last_name)" required autofocus autocomplete="last_name" />
+                <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
+            </div>
+        </div>
+
+        <div>
+            <x-input-label for="address" :value="__('Address')" />
+            <x-text-input id="address" name="address" type="text" class="mt-1 block w-full" :value="old('address', $customerAddress->address)" required autofocus autocomplete="address" />
+            <x-input-error class="mt-2" :messages="$errors->get('address')" />
+        </div>
+
+        <div class="flex space-x-4">
+            <div class="w-1/2">
+                <x-input-label for="phone" :value="__('Phone')" />
+                <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $customer->phone)" required autofocus autocomplete="phone" />
+                <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+            </div>
+
+            <div class="w-1/2">
+                <x-input-label for="zipcode" :value="__('Zipcode')" />
+                <x-text-input id="zipcode" name="zipcode" type="text" class="mt-1 block w-full" :value="old('zipcode', $customerAddress->zipcode)" required autofocus autocomplete="zipcode" />
+                <x-input-error class="mt-2" :messages="$errors->get('zipcode')" />
+            </div>
+        </div>
+
         <div x-data="provinceCity()" class="flex space-x-4">
             <div class="w-1/2">
                 <x-input-label for="province" :value="__('Province')" />
@@ -54,7 +88,7 @@
                     <option value="">{{ __('Select Province') }}</option>
                     @foreach ($listProvince as $province)
                     <option value="{{ $province['province_id'] }}"
-                        {{ old('province_id', $user->province_id) == $province['province_id']? 'selected' : '' }}>
+                        {{ old('province_id', $customerAddress->province_id) == $province['province_id']? 'selected' : '' }}>
                         {{ $province['province'] }}
                     </option>
                     @endforeach
