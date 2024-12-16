@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -38,10 +39,14 @@ Route::middleware(['guestOrVerified'])->group(function () {
 Route::get('/cities', [ProfileController::class, 'get_cities'])->name('get_cities');
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
+    // Profile 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Checkout
+    Route::post('/cart/checkout', [CheckoutController::class, 'get_token'])->name('cart.checkout');
 });
 
 require __DIR__.'/auth.php';

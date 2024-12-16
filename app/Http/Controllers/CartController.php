@@ -14,17 +14,7 @@ class CartController extends Controller
     // Metode untuk menampilkan halamn keranjang
     public function index()
     {
-        // Ambil semua item pada keranjang (dari DB atau cookie) menggunakan helper
-        $cartItems = Cart::getCartItems();
-
-        // Ambil semua 'product_id' dari item keranjang untuk mengambil detail produk dari DB
-        $ids = Arr::pluck($cartItems, 'product_id');
-
-        // Ambil data produk dari DB berdasarkan 'product_id' yang ada di keranjang
-        $products = Product::query()->whereIn('id', $ids)->get();
-
-        // Mengubah array item ke keranjang menjadi asosiasi dengan 'product_id' sebagai kunci
-        $cartItems = Arr::keyBy($cartItems, 'product_id');
+        list($products, $cartItems) = Cart::getProductsAndCartItems();
         $total = 0;
 
         // Loop menghitung total harga

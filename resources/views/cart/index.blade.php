@@ -80,8 +80,9 @@
                             <span id="cartTotal" class="text-xl" x-text="formatRupiah(cartTotal)"></span>
                         </div>
 
-                        <form action="#" method="post">
+                        <form action="{{ route('cart.checkout') }}" method="post">
                             @csrf
+                            <input type="hidden" name="cart_total" :value="cartTotal">
                             <button type="submit" class="btn-primary w-full py-3 text-lg hover:bg-white">
                                 Checkout
                             </button>
