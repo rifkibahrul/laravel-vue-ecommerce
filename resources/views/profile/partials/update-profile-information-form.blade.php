@@ -103,6 +103,11 @@
                     <template x-for="city in listCity" :key="city.city_id">
                         <option :value="city.city_id" x-text="city.city_name"></option>
                     </template>
+                    @if ($selectedCity)
+                    <option value="{{ $selectedCity['city_id'] }}" selected>
+                        {{ $selectedCity['city_name'] }}
+                    </option>
+                    @endif
                 </select>
                 <x-input-error class="mt-2" :messages="$errors->get('city_id')" />
             </div>

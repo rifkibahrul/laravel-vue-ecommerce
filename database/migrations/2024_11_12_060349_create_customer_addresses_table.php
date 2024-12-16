@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('type', 45)->nullable();
             $table->string('address', 45);
-            $table->string('city', 255);
-            // $table->string('city_id', 255);
-            $table->string('province', 255);
-            // $table->string('province_id', 255);
+            // $table->string('city', 255);
+            $table->string('city_id', 255);
+            // $table->string('province', 255);
+            $table->string('province_id', 255);
             $table->string('zipcode', 45);
             // $table->string('country_code', 45);
             $table->foreignId('user_id')->constrained('customers', 'user_id')->onDelete('cascade');

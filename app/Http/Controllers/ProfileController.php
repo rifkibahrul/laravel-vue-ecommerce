@@ -37,13 +37,13 @@ class ProfileController extends Controller
             'zipcode' => '',
             'province_id' => '',
             'city_id' => '',
-        ]; 
+        ];
 
         // Mengambil data API RajaOngkir
         $provRes = Http::withHeaders([
             'key' => env('RAJAONGKIR_API_KEY'),
         ])->get('https://api.rajaongkir.com/starter/province');
-        
+
         if ($provRes->failed()) {
             return abort(404);
         }
@@ -54,7 +54,22 @@ class ProfileController extends Controller
         // Mengambil daftar provinsi
         $listProvince = $provData['rajaongkir']['results'];
 
-        return view('profile.edit', compact('user', 'customer', 'customerAddress', 'listProvince'));
+        $cityRes = Http::withHeaders([
+            'key' => env('RAJAONGKIR_API_KEY'),
+        ])->get('https://api.rajaongkir.com/starter/city', [
+            'province' => $customerAddress->province_id
+        ]);
+
+        if ($cityRes->failed()) {
+            return abort(404);
+        }
+
+        $cityData = $cityRes->json();
+        $cityList = $cityData['rajaongkir']['results'];
+
+        $selectedCity = collect($cityList)->firstWhere('city_id', $customerAddress->city_id);
+
+        return view('profile.edit', compact('user', 'customer', 'customerAddress', 'listProvince', 'selectedCity'));
     }
 
     /**
@@ -101,17 +116,17 @@ class ProfileController extends Controller
             $customerAddress->customer()->associate($customer);
         }
         $customerAddress->fill([
-            'address' => $request->input('address', $customerAddress->address ?? ''),
-            'province' => $request->input('province', $customerAddress->province ?? ''),
-            'city' => $request->input('city', $customerAddress->city ?? ''),
-            'zipcode' => $request->input('zipcode', $customerAddress->zipcode ?? ''),
+            'address' => $request->input('address', $customerAddress->address?? ''),
+            'province_id' => $request->input('province_id', $customerAddress->province_id?? ''),
+            'city_id' => $request->input('city_id', $customerAddress->city_id?? ''),
+            'zipcode' => $request->input('zipcode', $customerAddress->zipcode?? ''),
         ]);
         $customerAddress->save();
         // dd($customerAddress);
 
-        session()->flash('flash_message', 'Profile was successfully updated.');
+        // $request->session()->flash('flash_message', 'Profile was successfully updated.');
 
-        return Redirect::route('profile.edit');
+        return Redirect::route('profile.edit')->with('flash_message', 'Profile was successfully updated.');
     }
 
     /**
