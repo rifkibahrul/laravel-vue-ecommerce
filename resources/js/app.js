@@ -107,6 +107,18 @@ document.addEventListener("alpine:init", async () => {
                         this.listCity = data;
                         // Mengupdate nilai dari select kota
                         document.getElementById("city").innerHTML = "";
+                        let provinceName =
+                            event.target.options[event.target.selectedIndex]
+                                .text;
+                        document.querySelector(
+                            'input[name="province_name"]'
+                        ).value = provinceName;
+
+                        let option = document.createElement("option");
+                        option.value = "";
+                        option.text = "Select City";
+                        document.getElementById("city").appendChild(option);
+                        // loop untuk membuat opsi kota
                         data.forEach((city) => {
                             let option = document.createElement("option");
                             option.value = city.city_id;
@@ -118,6 +130,11 @@ document.addEventListener("alpine:init", async () => {
             } else {
                 this.listCity = [];
             }
+        },
+        updateCityName(event) {
+            let cityName =
+                event.target.options[event.target.selectedIndex].text;
+            document.querySelector('input[name="city_name"]').value = cityName;
         },
     }));
     // Alpine.data("provinceCity", () => ({

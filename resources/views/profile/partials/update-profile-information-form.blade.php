@@ -16,6 +16,8 @@
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
+        <input type="hidden" name="province_name" value="{{ old('province_name', $customerAddress->province_name ?? '') }}">
+        <input type="hidden" name="city_name" value="{{ old('city_name', $customerAddress->city_name ?? '') }}">
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -98,7 +100,7 @@
 
             <div class="w-1/2">
                 <x-input-label for="city" :value="__('City')" />
-                <select name="city_id" id="city" class="mt-1 block w-full" required>
+                <select name="city_id" id="city" class="mt-1 block w-full" @change="updateCityName($event)" required>
                     <option value="">{{ __('Select City') }}</option>
                     <template x-for="city in listCity" :key="city.city_id">
                         <option :value="city.city_id" x-text="city.city_name"></option>

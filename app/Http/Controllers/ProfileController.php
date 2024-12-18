@@ -35,6 +35,8 @@ class ProfileController extends Controller
         $customerAddress = $customer->customerAddress ?? (object) [
             'address' => '',
             'zipcode' => '',
+            'province_name' => '',
+            'city_name' => '',
             'province_id' => '',
             'city_id' => '',
         ];
@@ -115,11 +117,16 @@ class ProfileController extends Controller
             $customerAddress = new CustomerAddress();
             $customerAddress->customer()->associate($customer);
         }
+        $provinceName = $request->input('province_name', $customerAddress->province_name ?? '');
+        $cityName = $request->input('city_name', $customerAddress->city_name ?? '');
+
         $customerAddress->fill([
-            'address' => $request->input('address', $customerAddress->address?? ''),
-            'province_id' => $request->input('province_id', $customerAddress->province_id?? ''),
-            'city_id' => $request->input('city_id', $customerAddress->city_id?? ''),
-            'zipcode' => $request->input('zipcode', $customerAddress->zipcode?? ''),
+            'address' => $request->input('address', $customerAddress->address ?? ''),
+            'province_id' => $request->input('province_id', $customerAddress->province_id ?? ''),
+            'city_id' => $request->input('city_id', $customerAddress->city_id ?? ''),
+            'province_name' => $provinceName,
+            'city_name' => $cityName,
+            'zipcode' => $request->input('zipcode', $customerAddress->zipcode ?? ''),
         ]);
         $customerAddress->save();
         // dd($customerAddress);
@@ -168,7 +175,7 @@ class ProfileController extends Controller
 
         // dd($listCity = $data['rajaongkir']['result']);
         $listCity = $data['rajaongkir']['results'];
-
+        // dd($listCity);
         return response()->json($listCity);
     }
 }

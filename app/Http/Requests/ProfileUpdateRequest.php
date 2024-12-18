@@ -23,10 +23,10 @@ class ProfileUpdateRequest extends FormRequest
             'last_name' => ['required'],
             'phone' => ['required', 'min:7'],
             'address' => ['required'],
+            'province_name' => ['required'],
+            'city_name' => ['required'],
             'province_id' => ['required'],
-            // 'province' => ['required'],
             'city_id' => ['required'],
-            // 'city' => ['required'],
             'zipcode' => ['required', 'string', 'max:10'],
         ];
     }
