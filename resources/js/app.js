@@ -3,7 +3,7 @@ import "./bootstrap";
 import Alpine from "alpinejs";
 import collapse from "@alpinejs/collapse";
 // import { get, post } from "./http.js";
-import { post, get } from "./http.js";
+import { post, get, request } from "./http.js";
 
 Alpine.plugin(collapse);
 
@@ -137,29 +137,138 @@ document.addEventListener("alpine:init", async () => {
             document.querySelector('input[name="city_name"]').value = cityName;
         },
     }));
-    // Alpine.data("provinceCity", () => ({
-    //     listCity: [],
-    //     getCity(event) {
-    //         let provinceId = event.target.value.split("__")[0];
-    //         if (provinceId) {
-    //             get("/cities?province_id=" + provinceId)
-    //                 .then((data) => {
-    //                     this.listCity = data;
-    //                     // Mengupdate nilai dari select kota
-    //                     document.getElementById("city").innerHTML = "";
-    //                     data.forEach((city) => {
-    //                         let option = document.createElement("option");
-    //                         option.value = city.city_id + "__" + city.city_name;
-    //                         option.text = city.city_name;
-    //                         document.getElementById("city").appendChild(option);
-    //                     });
-    //                 })
-    //                 .catch((error) => console.error(error));
-    //         } else {
-    //             this.listCity = [];
-    //         }
-    //     },
-    // }));
+
+    // Pengelolaan Kurir
+    Alpine.data("payments", () => ({
+        deliveryCost: "", // Biaya pengiriman
+        deliveryService: "", // Jenis kurir
+        subtotal: 0, // Subtotal barang
+        total: 0, // Total keseluruhan
+        isProcessing: false, // Status pemrosesan
+
+        // Inisialisasi data
+        async init() {
+            // Parsing subtotal dari atribut 'x-subtotal'
+            let subtotalString = this.$el
+                .getAttribute("x-subtotal")
+                .replace(".", "")
+                .replace(",", ".");
+            this.subtotal = parseFloat(subtotalString);
+        },
+
+        // Mengambil pengiriman berdasarkan pilihan
+        async getDeliveryCost(event) {
+            let deliveryValues = event.target.value.split("__");
+            let deliveryCost = deliveryValues[0];
+            let deliveryService = deliveryValues[1];
+            if (deliveryCost === undefined || deliveryCost === "") {
+                return;
+            }
+
+            let deliveryCostInt = parseFloat(deliveryCost);
+
+            // Update state biaya dan layanan pengiriman
+            this.deliveryCost = deliveryCostInt;
+            this.deliveryService = deliveryService;
+
+            // Update total dan tampilan biaya pengiriman
+            this.updateTotal();
+            this.showDeliveryCost();
+        },
+
+        // Menghitung dan memperbarui total keseluruhan
+        updateTotal() {
+            const total = this.subtotal + this.deliveryCost;
+            this.total = this.formatRupiah(total);
+
+            // Update elemen DOM untuk total keseluruhan
+            document.querySelector("#total").innerText = this.total;
+        },
+
+        // Menampilkan biaya pengiriman pada halaman
+        showDeliveryCost() {
+            // Hapus elemen lama jika ada
+            if (document.querySelector("#delivery-cost")) {
+                document.querySelector("#delivery-cost").remove();
+            }
+
+            // Buat elemen baru untuk biaya pengiriman
+            let deliveryCostElement = document.createElement("p");
+            deliveryCostElement.id = "delivery-cost";
+            deliveryCostElement.className = "flex justify-between mb-2";
+            deliveryCostElement.innerHTML = `<span>Delivery</span><span>${this.formatRupiah(
+                this.deliveryCost
+            )}</span>`;
+
+            // Tambahkan elemen ke DOM
+            document
+                .querySelector(".checkout-detail")
+                .appendChild(deliveryCostElement);
+        },
+
+        // Format angka menjadi format rupiah
+        formatRupiah(value) {
+            return new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+            }).format(value);
+        },
+
+        // Pemrosesan pembayaran
+        async processPayment() {
+            this.isProcessing = true;
+            // let self = this;
+            let token = "";
+            console.log(this.total);
+            request(
+                "get",
+                `/orders/checkout/token?deliveryCost=${this.deliveryCost}&deliveryService=${this.deliveryService}&cartTotal=${total}`,
+                {
+                    params: {
+                        deliveryCost: this.deliveryCost,
+                        deliveryService: this.deliveryService,
+                        cartTotal: this.total,
+                    },
+                }
+            ).then((data) => {
+                token = data.token;
+
+                snap.pay(token, {
+                    onSuccess: this.handlePaymentSuccess.bind(this),
+                    onPending: this.handlePaymentPending.bind(this),
+                    onError: this.handlePaymentError.bind(this),
+                });
+            });
+        },
+        // Callback saat pembayaran berhasil
+        handlePaymentSuccess(result) {
+            this.submitPaymentResult(result);
+            this.isProcessing = false;
+        },
+
+        // Callback saat pembayaran pending
+        handlePaymentPending(result) {
+            this.submitPaymentResult(result);
+            this.isProcessing = false;
+        },
+
+        // Callback saat pembayaran gagal
+        handlePaymentError(result) {
+            this.submitPaymentResult(result);
+            this.isProcessing = false;
+        },
+
+        // Mengirimkan hasil pembayaran ke form
+        submitPaymentResult(result) {
+            document.querySelector('input[name="result-data"]').value =
+                JSON.stringify(result, null, 2);
+            document.querySelector('input[name="delivery-cost"]').value =
+                this.deliveryCost;
+            document.querySelector('input[name="delivery-service"]').value =
+                this.deliveryService;
+            document.querySelector("#finish-form").submit();
+        },
+    }));
 });
 
 Alpine.start();
