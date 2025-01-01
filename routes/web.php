@@ -46,7 +46,10 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Checkout
-    Route::post('/cart/checkout', [CheckoutController::class, 'get_token'])->name('cart.checkout');
+    Route::prefix('/orders')->name('orders.')->group(function () {
+        Route::get('/checkout', [CheckoutController::class, 'index'])->name('index');
+        Route::get('/checkout/token', [CheckoutController::class, 'get_token'])->name('checkout.token');
+    });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
