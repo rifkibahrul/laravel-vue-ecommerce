@@ -233,10 +233,11 @@ document.addEventListener("alpine:init", async () => {
             ).then((data) => {
                 token = data.token;
 
-                snap.pay(token, {
+                window.snap.pay(token, {
                     onSuccess: this.handlePaymentSuccess.bind(this),
                     onPending: this.handlePaymentPending.bind(this),
                     onError: this.handlePaymentError.bind(this),
+                    onClose: this.handlePaymentClose.bind(this)
                 });
             });
         },
@@ -254,6 +255,12 @@ document.addEventListener("alpine:init", async () => {
 
         // Callback saat pembayaran gagal
         handlePaymentError(result) {
+            this.submitPaymentResult(result);
+            this.isProcessing = false;
+        },
+
+        // Callback saat pembayaran ditutup
+        handlePaymentClose(result) {
             this.submitPaymentResult(result);
             this.isProcessing = false;
         },

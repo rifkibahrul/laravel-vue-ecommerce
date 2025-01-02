@@ -37,7 +37,7 @@ Route::middleware(['guestOrVerified'])->group(function () {
 });
 
 Route::get('/cities', [ProfileController::class, 'get_cities'])->name('get_cities');
-
+Route::post('/checkout/notification', [CheckoutController::class, 'notification'])->name('payment.notification');
 
 Route::middleware('auth', 'verified')->group(function () {
     // Profile 
@@ -49,6 +49,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::prefix('/orders')->name('orders.')->group(function () {
         Route::get('/checkout', [CheckoutController::class, 'index'])->name('index');
         Route::get('/checkout/token', [CheckoutController::class, 'get_token'])->name('checkout.token');
+        Route::post('/checkout/finish', [CheckoutController::class, 'finish'])->name('checkout.finish');
     });
 });
 
