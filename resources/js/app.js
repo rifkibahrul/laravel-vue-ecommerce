@@ -260,8 +260,7 @@ document.addEventListener("alpine:init", async () => {
         },
 
         // Callback saat pembayaran ditutup
-        handlePaymentClose(result) {
-            this.submitPaymentResult(result);
+        handlePaymentClose() {
             this.isProcessing = false;
         },
 
