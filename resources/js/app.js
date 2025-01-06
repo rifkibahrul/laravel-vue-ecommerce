@@ -222,7 +222,7 @@ document.addEventListener("alpine:init", async () => {
             console.log(this.total);
             request(
                 "get",
-                `/orders/checkout/token?deliveryCost=${this.deliveryCost}&deliveryService=${this.deliveryService}&cartTotal=${total}`,
+                `/checkout/token?deliveryCost=${this.deliveryCost}&deliveryService=${this.deliveryService}&cartTotal=${total}`,
                 {
                     params: {
                         deliveryCost: this.deliveryCost,

@@ -4,14 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Cart;
 use App\Models\Order;
-use Ramsey\Uuid\Uuid;
 use App\Models\Payment;
-use App\Models\Product;
 use App\Models\CartItem;
 use App\Models\OrderItem;
-use App\Enums\OrderStatus;
-use Illuminate\Support\Arr;
-use App\Enums\PaymentStatus;
 use Hidehalo\Nanoid\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -56,7 +51,7 @@ class CheckoutController extends Controller
         // Mengambil data biaya pengiriman
         $deliveryCosts = $this->getDeliveryCosts($userData['customerAddress']);
 
-        return view('orders.index', [
+        return view('checkout.index', [
             'formattedTotal' => $formattedTotal,
             'listCost' => $deliveryCosts,
             'subtotal' => $cartData['total'],
@@ -219,83 +214,6 @@ class CheckoutController extends Controller
         CartItem::where(['user_id' => $userData['user']->id])->delete();
 
         return redirect()->route('home')->with("success", "Order Created");
-    }
-
-    // Notifikasi Midtrans
-    public function notification()
-    {
-        \Midtrans\Config::$serverKey    = config('midtrans.server_key');
-        \Midtrans\Config::$isProduction = false;
-
-        try {
-            $notif = new \Midtrans\Notification();
-        } catch (\Exception $e) {
-            exit($e->getMessage());
-        }
-
-        $transaction = $notif->transaction_status;
-        $type = $notif->payment_type;
-        $order_id = $notif->order_id;
-        $fraud = $notif->fraud_status;
-
-        if ($transaction == 'capture') {
-            // For credit card transaction, we need to check whether transaction is challenge by FDS or not
-            if ($type == 'credit_card') {
-                if ($fraud == 'challange') {
-                    // TODO set payment status in merchant's database to 'Challenge by FDS'
-                    // TODO merchant should decide whether this transaction is authorized or not in MAP
-                    $payment = Payment::where('serial_number', $order_id)->first();
-                    if ($payment) {
-                        $payment->update(['transaction_status' => 'Challenge by FDS']);
-                        $payment->order->update(['status' => 'Challenge by FDS']);
-                    }
-                } else {
-                    // TODO set payment status in merchant's database to 'Success'
-                    $payment = Payment::where('serial_number', $order_id)->first();
-                    if ($payment) {
-                        $payment->update(['transaction_status' => 'Success']);
-                        $payment->order->update(['status' => 'Success']);
-                    }
-                }
-            }
-        } else if ($transaction == 'settlement') {
-            // TODO set payment status in merchant's database to 'Settlement'
-            $payment = Payment::where('serial_number', $order_id)->first();
-            if ($payment) {
-                $payment->update(['transaction_status' => 'Settlement']);
-                $payment->order->update(['status' => 'Settlement']);
-            }
-        } else if ($transaction == 'pending') {
-            // TODO set payment status in merchant's database to 'Pending'
-            $payment = Payment::where('serial_number', $order_id)->first();
-            if ($payment) {
-                $payment->update(['transaction_status' => 'Pending']);
-                $payment->order->update(['status' => 'Pending']);
-            }
-        } else if ($transaction == 'deny') {
-            // TODO set payment status in merchant's database to 'Denied'
-            $payment = Payment::where('serial_number', $order_id)->first();
-            if ($payment) {
-                $payment->update(['transaction_status' => 'Denied']);
-                $payment->order->update(['status' => 'Denied']);
-            }
-        } else if ($transaction == 'expire') {
-            // TODO set payment status in merchant's database to 'expire'
-            $payment = Payment::where('serial_number', $order_id)->first();
-            if ($payment) {
-                $payment->update(['transaction_status' => 'Expire']);
-                $payment->order->update(['status' => 'Expire']);
-            }
-        } else if ($transaction == 'cancel') {
-            // TODO set payment status in merchant's database to 'Denied'
-            $payment = Payment::where('serial_number', $order_id)->first();
-            if ($payment) {
-                $payment->update(['transaction_status' => 'Denied']);   // Upd table payment
-                $payment->order->update(['status' => 'Denied']);        // Upd table order
-            }
-        }
-
-        return response()->json(['order_id' => $order_id, 'transaction_status' => $transaction]);
     }
 
     // Fungsi untuk mendapatkan data keranjang

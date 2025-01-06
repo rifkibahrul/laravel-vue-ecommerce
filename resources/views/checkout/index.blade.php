@@ -101,7 +101,7 @@
         </div>
     </div>
 
-    <form id="finish-form" action="{{ route('orders.checkout.finish') }}" method="post" style="display: hidden;">
+    <form id="finish-form" action="{{ route('checkout.finish') }}" method="post" style="display: hidden;">
         @csrf
         <input type="hidden" name="result-data">
         <input type="hidden" name="delivery-cost">

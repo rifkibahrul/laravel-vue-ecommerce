@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -37,7 +38,7 @@ Route::middleware(['guestOrVerified'])->group(function () {
 });
 
 Route::get('/cities', [ProfileController::class, 'get_cities'])->name('get_cities');
-Route::post('/checkout/notification', [CheckoutController::class, 'notification'])->name('payment.notification');
+Route::post('/checkout/notification', [OrderController::class, 'notification'])->name('payment.notification');
 
 Route::middleware('auth', 'verified')->group(function () {
     // Profile 
@@ -46,10 +47,17 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Checkout
-    Route::prefix('/orders')->name('orders.')->group(function () {
-        Route::get('/checkout', [CheckoutController::class, 'index'])->name('index');
-        Route::get('/checkout/token', [CheckoutController::class, 'get_token'])->name('checkout.token');
-        Route::post('/checkout/finish', [CheckoutController::class, 'finish'])->name('checkout.finish');
+    Route::prefix('/checkout')->name('checkout.')->group(function () {
+        Route::get('/', [CheckoutController::class, 'index'])->name('index');
+        Route::get('/token', [CheckoutController::class, 'get_token'])->name('token');
+        Route::post('/finish', [CheckoutController::class, 'finish'])->name('finish');
+    });
+
+    // Order
+    Route::prefix('/orders')->name('order.')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('index');
+        Route::post('/{order}/pay', [OrderController::class, 'pay'])->name('pay');
+        Route::get('/view/{order}', [OrderController::class, 'view'])->name('view');
     });
 });
 
