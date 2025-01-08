@@ -1,3 +1,4 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
     <TransitionRoot as="template" :show="show">
         <Dialog as="div" class="relative z-10" @close="show = false">
@@ -42,7 +43,11 @@
                                     as="h3"
                                     class="text-lg leading-6 font-medium text-gray-900"
                                 >
-                                    {{ product.id ? `Update product: "${props.product.title}"` : 'Create new Product' }}
+                                    {{
+                                        product.id
+                                            ? `Update product: "${props.product.title}"`
+                                            : "Create new Product"
+                                    }}
                                 </DialogTitle>
                                 <button
                                     @click="closeModal()"
@@ -91,15 +96,6 @@
                                         v-model="product.price"
                                         label="Price"
                                         prepend="Rp"
-                                        @input="
-                                            product.price =
-                                                product.price.replace(/\D/g, '')
-                                        "
-                                        @blur="
-                                            product.price = formatRupiah(
-                                                product.price
-                                            )
-                                        "
                                     />
                                     <CustomInput
                                         type="checkbox"
@@ -136,18 +132,28 @@
 </template>
 
 <script setup>
-import { computed, onUpdated, ref } from "vue";
-import store from "../../store";
+import { computed, onUpdated, ref, watch } from "vue";
 import {
-    TransitionRoot,
     Dialog,
     DialogPanel,
     DialogTitle,
     TransitionChild,
+    TransitionRoot,
 } from "@headlessui/vue";
-import Spinner from "../../components/core/Spinner.vue";
 import { ExclamationIcon } from "@heroicons/vue/outline";
 import CustomInput from "../../components/core/CustomInput.vue";
+import store from "../../store/index.js";
+import Spinner from "../../components/core/Spinner.vue";
+
+const loading = ref(false);
+const product = ref({
+    id: "",
+    title: "",
+    image: "",
+    description: "",
+    price: "",
+    published: "",
+});
 
 const props = defineProps({
     modelValue: Boolean,
@@ -157,17 +163,6 @@ const props = defineProps({
     },
 });
 
-const product = ref({
-    id: props.product.id,
-    title: props.product.title,
-    image: props.product.image,
-    description: props.product.description,
-    price: props.product.price,
-    published: props.product.published,
-});
-
-const loading = ref(false);
-
 const emit = defineEmits(["update:modelValue", "close"]);
 
 const show = computed({
@@ -175,18 +170,25 @@ const show = computed({
     set: (value) => emit("update:modelValue", value),
 });
 
+// Initialize product with props
+watch(
+    () => props.product,
+    (newValue) => {
+        product.value = {
+            id: newValue.id,
+            title: newValue.title,
+            image: newValue.image,
+            description: newValue.description,
+            price: newValue.price,
+            published: newValue.published,
+        };
+    },
+    { immediate: true }
+);
+
 function closeModal() {
     show.value = false;
     emit("close");
-}
-
-function formatRupiah(value) {
-    if (!value) return "Rp0";
-    return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-    }).format(value);
 }
 
 function onSubmit() {
@@ -195,38 +197,26 @@ function onSubmit() {
         store.dispatch("updateProduct", product.value).then((response) => {
             loading.value = false;
             if (response.status === 200) {
-                // TODO NOTIFICATION
+                // TODO show notification
                 store.dispatch("getProducts");
                 closeModal();
             }
         });
     } else {
-        loading.value = true;
         store
             .dispatch("createProduct", product.value)
             .then((response) => {
                 loading.value = false;
                 if (response.status === 201) {
-                    // TODO NOTIFICATION
+                    // TODO show notification
                     store.dispatch("getProducts");
                     closeModal();
                 }
             })
-            .catch((error) => {
+            .catch((err) => {
                 loading.value = false;
-                console.error(error);
+                debugger;
             });
     }
 }
-
-onUpdated(() => {
-    product.value = {
-        id: props.product.id,
-        title: props.product.title,
-        image: props.product.image,
-        description: props.product.description,
-        price: props.product.price,
-        published: props.product.published,
-    };
-});
 </script>

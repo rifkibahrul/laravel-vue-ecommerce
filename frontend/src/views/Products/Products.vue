@@ -37,7 +37,7 @@ function showAddNewModal() {
 function updateProduct(p) {
   store.dispatch('getProduct', p.id)
     .then(({data}) => {
-      productModel.value = data
+      productModel.value = data.data
       showAddNewModal();
     })
 }
