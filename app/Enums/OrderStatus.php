@@ -4,7 +4,16 @@ namespace App\Enums;
 
 enum OrderStatus: string
 {
-    case Unpaid = 'unpaid';
-    case Paid = 'paid';
-    case Cancelled = 'cancelled';
+    case Settlement = 'Settlement';
+    case pending = 'pending';
+    case Expire = 'Expire';
+
+    public static function getStatuses()
+    {
+        return [
+            self::pending,
+            self::Settlement,
+            self::Expire
+        ];
+    }
 }

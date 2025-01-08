@@ -18,16 +18,6 @@ export function setToken(state, token) {
     }
 }
 
-export function showToast(state, message) {
-    state.toast.show = true;
-    state.toast.message = message;
-}
-
-export function hideToast(state) {
-    state.toast.show = false;
-    state.toast.message = "";
-}
-
 export function setProducts(state, [loading, data = null]) {
     if (data) {
         state.products = {
@@ -42,4 +32,30 @@ export function setProducts(state, [loading, data = null]) {
         };
     }
     state.products.loading = loading; // Atur status loading
+}
+
+export function setOrders(state, [loading, data = null]) {
+    if (data) {
+        state.orders = {
+            ...state.orders,
+            data: data.data,    // Data orders
+            links: data.meta?.links,  // Pagination
+            page: data.meta.current_page,   // Halamaan saat ini
+            limit: data.meta.per_page,  // Data per halaman
+            from: data.meta.from,   // Data mulai
+            to: data.meta.to,   // Data selesai
+            total: data.meta.total
+        };
+    }
+    state.orders.loading = loading;
+}
+
+export function showToast(state, message) {
+    state.toast.show = true;
+    state.toast.message = message;
+}
+
+export function hideToast(state) {
+    state.toast.show = false;
+    state.toast.message = "";
 }

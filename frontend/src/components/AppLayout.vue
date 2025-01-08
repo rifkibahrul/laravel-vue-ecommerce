@@ -19,7 +19,7 @@
         <!-- <div v-else class="min-h-full bg-gray-200 flex item-center justify-center">
             <Spinner/>
         </div> -->
-        <!-- <Toast /> -->
+        <Toast />
     </div>
 </template>
 
