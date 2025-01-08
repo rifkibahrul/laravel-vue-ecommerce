@@ -1,9 +1,12 @@
 import axiosClient from "../axios";
 
-export function getUser({ commit }, data) {
+/* MENDAPATKAN USERS YANG SAAT INI SEDANG LOGIN */
+export function getCurrentUser({ commit }, data) {
     return axiosClient.get("/user", data).then(({ data }) => {
-        commit("setUser", data);
-        return data;
+        // console.log("data user: ", data);
+        // console.log("data user: ", data.data);
+        commit("setUser", data.data);
+        return data.data;
     });
 }
 
@@ -138,6 +141,51 @@ export function getOrders(
 }
 
 /* MENAMPILKAN DATA PER ORDERAN */
-export function getOrder({commit}, id) {
-  return axiosClient.get(`/orders/${id}`)
+export function getOrder({ commit }, id) {
+    return axiosClient.get(`/orders/${id}`);
+}
+
+/* MENDAPATKAN DATA SEMUA USER */
+export function getUsers(
+    { commit, state },
+    { url = null, search = "", per_page, sort_field, sort_direction } = {}
+) {
+    commit("setUsers", [true]);
+    url = url || "/users";
+    const params = {
+        per_page: state.users.limit,
+    };
+
+    return axiosClient.get(url, {
+        params: {
+            ...params,
+            search,
+            per_page,
+            sort_field,
+            sort_direction,
+        },
+    })
+    .then((response) => {
+        commit("setUsers", [false, response.data]);
+    })
+    .then(() => {
+        commit("setUsers", [false])
+    })
+}
+
+/* MENDAPATKAN DATA PER USER */
+export function getUser({commit}, id) {
+    return axiosClient.get(`/users/${id}`)
+}
+
+export function createUser({commit}, user) {
+    return axiosClient.post('/users', user)
+}
+
+export function updateUser({commit}, user) {
+    return axiosClient.put(`/users/${user.id}`, user)
+}
+
+export function deleteUser({commit}, id) {
+    return axiosClient.delete(`/users/${id}`)
 }

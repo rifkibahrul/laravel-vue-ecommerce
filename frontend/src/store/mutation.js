@@ -38,16 +38,32 @@ export function setOrders(state, [loading, data = null]) {
     if (data) {
         state.orders = {
             ...state.orders,
-            data: data.data,    // Data orders
-            links: data.meta?.links,  // Pagination
-            page: data.meta.current_page,   // Halamaan saat ini
-            limit: data.meta.per_page,  // Data per halaman
-            from: data.meta.from,   // Data mulai
-            to: data.meta.to,   // Data selesai
-            total: data.meta.total
+            data: data.data, // Data orders
+            links: data.meta?.links, // Pagination
+            page: data.meta.current_page, // Halamaan saat ini
+            limit: data.meta.per_page, // Data per halaman
+            from: data.meta.from, // Data mulai
+            to: data.meta.to, // Data selesai
+            total: data.meta.total,
         };
     }
     state.orders.loading = loading;
+}
+
+export function setUsers(state, [loading, data = null]) {
+    if (data) {
+        state.users = {
+            ...state.users,
+            data: data.data, // Data users
+            links: data.meta?.links, // Pagination
+            page: data.meta.current_page, // Halamaan saat ini
+            limit: data.meta.per_page, // Data per halaman
+            from: data.meta.from, // Data mulai
+            to: data.meta.to, // Data selesai
+            total: data.meta.total,
+        };
+    }
+    state.products.loading = loading;
 }
 
 export function showToast(state, message) {
