@@ -156,6 +156,51 @@ export function getUsers(
         per_page: state.users.limit,
     };
 
+    return axiosClient
+        .get(url, {
+            params: {
+                ...params,
+                search,
+                per_page,
+                sort_field,
+                sort_direction,
+            },
+        })
+        .then((response) => {
+            commit("setUsers", [false, response.data]);
+        })
+        .then(() => {
+            commit("setUsers", [false]);
+        });
+}
+
+/* MENDAPATKAN DATA PER USER */
+export function getUser({ commit }, id) {
+    return axiosClient.get(`/users/${id}`);
+}
+
+export function createUser({ commit }, user) {
+    return axiosClient.post("/users", user);
+}
+
+export function updateUser({ commit }, user) {
+    return axiosClient.put(`/users/${user.id}`, user);
+}
+
+export function deleteUser({ commit }, id) {
+    return axiosClient.delete(`/users/${id}`);
+}
+
+/* MENDAPATKAN DATA SELURUH CUSTOMER */
+export function getCustomers(
+    { commit, state },
+    { url = null, search = "", per_page, sort_field, sort_direction } = {}
+) {
+    commit("setCustomers", [true]);
+    url = url || "/customers";
+    const params = {
+        per_page: state.customers.limit,
+    };
     return axiosClient.get(url, {
         params: {
             ...params,
@@ -166,26 +211,23 @@ export function getUsers(
         },
     })
     .then((response) => {
-        commit("setUsers", [false, response.data]);
+        commit("setCustomers", [false, response.data]);
     })
     .then(() => {
-        commit("setUsers", [false])
-    })
+        commit("setCustomers", [false]);
+    });
 }
 
-/* MENDAPATKAN DATA PER USER */
-export function getUser({commit}, id) {
-    return axiosClient.get(`/users/${id}`)
-}
-
-export function createUser({commit}, user) {
-    return axiosClient.post('/users', user)
-}
-
-export function updateUser({commit}, user) {
-    return axiosClient.put(`/users/${user.id}`, user)
-}
-
-export function deleteUser({commit}, id) {
-    return axiosClient.delete(`/users/${id}`)
+/* MENDAPATKAN DATA PER CUSTOMER */
+export function getCustomer({commit}, id) {
+    return axiosClient.get(`/customers/${id}`).then((response) => {
+        if (response.status === 200) {
+            console.log("Data dari API (getCustomer):", response.data);
+            return response;
+        } else {
+            throw new Error("Gagal mengambil data customer");
+        }
+    }).catch((error) => {
+        console.error("Error fetching customer:", error);
+    });
 }
