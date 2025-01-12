@@ -2,7 +2,10 @@
     <div v-if="customer.id" class="animate-fade-in-down">
         <form @submit.prevent="onSubmit">
             <div class="bg-white px-4 pt-5 pb-4">
+                <!-- Judul Form -->
                 <h1 class="text-2xl font-semibold pb-2">{{ title }}</h1>
+
+                <!-- Informasi Dasar -->
                 <CustomInput
                     class="mb-2"
                     v-model="customer.first_name"
@@ -30,6 +33,7 @@
                     label="Active"
                 />
 
+                <!-- Alamat -->
                 <div>
                     <h2
                         class="text-xl font-semibold mt-6 pb-2 border-b border-gray-300"
@@ -37,42 +41,89 @@
                         Address
                     </h2>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        <CustomInput
-                            v-model="customer.customerAddress.address"
-                            label="Address"
-                        />
-                        <CustomInput
-                            v-model="customer.customerAddress.city_name"
-                            label="City"
-                        />
-                        <CustomInput
-                            v-model="customer.customerAddress.province_name"
-                            label="Province"
-                        />
-                        <CustomInput
-                            v-model="customer.customerAddress.zipcode"
-                            label="Zip Code"
-                        />
-                        <!-- 
-                        <CustomInput
-                            type="select"
-                            :select-options="countries"
-                            v-model="customer.customerAddress.country_code"
-                            label="Country"
-                        />
-                        <CustomInput
-                            v-if="!billingCountry.states"
-                            v-model="customer.customerAddress.state"
-                            label="State"
-                        />
-                        <CustomInput
-                            v-else
-                            type="select"
-                            :select-options="billingStateOptions"
-                            v-model="customer.customerAddress.state"
-                            label="State"
-                        /> -->
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2"
+                    >
+                        <div>
+                            <label
+                                for="address"
+                                class="block text-sm font-medium text-gray-700"
+                            >
+                                Address
+                            </label>
+                            <CustomInput
+                                id="address"
+                                v-model="customer.customerAddress.address"
+                                label="Address"
+                                class="w-full rounded-md border-gray-300"
+                            />
+                        </div>
+                        <div>
+                            <label
+                                for="zipcode"
+                                class="block text-sm font-medium text-gray-700"
+                            >
+                                Zip Code
+                            </label>
+                            <CustomInput
+                                id="zipcode"
+                                v-model="customer.customerAddress.zipcode"
+                                label="Zip Code"
+                                class="w-full rounded-md border-gray-300"
+                            />
+                        </div>
+                        <div>
+                            <label
+                                for="province"
+                                class="block text-sm font-medium text-gray-700"
+                            >
+                                Province
+                            </label>
+                            <select
+                                id="province"
+                                v-model="customer.customerAddress.province_id"
+                                @change="
+                                    fetchCities(
+                                        customer.customerAddress.province_id
+                                    )
+                                "
+                                class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            >
+                                <option value="" disabled>
+                                    Select Province
+                                </option>
+                                <option
+                                    v-for="province in provinces"
+                                    :key="province.province_id"
+                                    :value="province.province_id"
+                                >
+                                    {{ province.province }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label
+                                for="city"
+                                class="block text-sm font-medium text-gray-700"
+                            >
+                                City
+                            </label>
+                            <select
+                                id="city"
+                                v-model="customer.customerAddress.city_id"
+                                class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            >
+                                <option value="" disabled>Select City</option>
+                                <option
+                                    v-for="city in cities"
+                                    :key="city.city_id"
+                                    :value="city.city_id"
+                                >
+                                    {{ city.city_name }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -81,7 +132,7 @@
             >
                 <button
                     type="submit"
-                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium  focus:outline-none focus:ring-2 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500"
+                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500"
                 >
                     Submit
                 </button>
@@ -113,13 +164,35 @@ const customer = ref({
 });
 
 const loading = ref(false);
-const customerCity = computed(() => store.state.customerAddress);
+const provinces = ref([]);
+const cities = ref([]);
+
+function fetchProvinces() {
+    axiosClient.get("/provinces").then((response) => {
+        provinces.value = response.data;
+    });
+}
+
+function fetchCities(provinceId) {
+    if (!provinceId) {
+        cities.value = [];
+        return;
+    }
+
+    axiosClient
+        .get(`/cities?province_id=${provinceId}`)
+        .then((response) => {
+            cities.value = response.data;
+        })
+        .catch((error) => {
+            console.error("Error fetching cities: ", error);
+        });
+}
 
 function onSubmit() {
     loading.value = true;
     if (customer.value.id) {
-        console.log(customer.value.status);
-        customer.value.status =!! customer.value.status;
+        customer.value.status = !!customer.value.status;
         store.dispatch("updateCustomer", customer.value).then((response) => {
             loading.value = false;
             if (response.status === 200) {
@@ -141,16 +214,20 @@ function onSubmit() {
             })
             .catch((err) => {
                 loading.value = false;
-                debugger;
+                // debugger;
             });
     }
 }
 
 onMounted(() => {
+    fetchProvinces();
     store.dispatch("getCustomer", route.params.id).then(({ data }) => {
         title.value = `Update customer: "${data.first_name} ${data.last_name}"`;
         customer.value = data;
         customer.value.customerAddress = customer.value.customerAddress || {};
+        if (customer.value.customerAddress.province_id) {
+            fetchCities(customer.value.customerAddress.province_id);
+        }
     });
 });
 </script>

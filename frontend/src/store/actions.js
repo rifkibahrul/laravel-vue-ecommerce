@@ -201,33 +201,52 @@ export function getCustomers(
     const params = {
         per_page: state.customers.limit,
     };
-    return axiosClient.get(url, {
-        params: {
-            ...params,
-            search,
-            per_page,
-            sort_field,
-            sort_direction,
-        },
-    })
-    .then((response) => {
-        commit("setCustomers", [false, response.data]);
-    })
-    .then(() => {
-        commit("setCustomers", [false]);
-    });
+    return axiosClient
+        .get(url, {
+            params: {
+                ...params,
+                search,
+                per_page,
+                sort_field,
+                sort_direction,
+            },
+        })
+        .then((response) => {
+            commit("setCustomers", [false, response.data]);
+        })
+        .then(() => {
+            commit("setCustomers", [false]);
+        });
 }
 
 /* MENDAPATKAN DATA PER CUSTOMER */
-export function getCustomer({commit}, id) {
-    return axiosClient.get(`/customers/${id}`).then((response) => {
-        if (response.status === 200) {
-            console.log("Data dari API (getCustomer):", response.data);
-            return response;
-        } else {
-            throw new Error("Gagal mengambil data customer");
-        }
-    }).catch((error) => {
-        console.error("Error fetching customer:", error);
-    });
+export function getCustomer({ commit }, id) {
+    return axiosClient
+        .get(`/customers/${id}`)
+        .then((response) => {
+            if (response.status === 200) {
+                // console.log("Data dari API (getCustomer):", response.data);
+                return response;
+            } else {
+                throw new Error("Gagal mengambil data customer");
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching customer:", error);
+        });
+}
+
+/* MENGHAPUS DATA CUSTOMER */
+export function deleteCustomer({ commit }, customer) {
+    return axiosClient.delete(`/customers/${customer.id}`);
+}
+
+/* MEMPERBARUI DATA CUSTOMER */
+export function updateCustomer({ commit }, customer) {
+    return axiosClient.put(`/customers/${customer.id}`, customer);
+}
+
+/* MENAMBAH DATA CUSTOMER */
+export function createCustomer({ commit }, customer) {
+    return axiosClient.post('/customers', customer);
 }

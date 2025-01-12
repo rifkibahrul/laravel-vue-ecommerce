@@ -33,5 +33,6 @@ Route::middleware('auth:sanctum', 'admin')->group(function(){
     Route::get('orders/{order}', [OrderController::class, 'view']);
 });
 
-
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/provinces', [CustomerController::class, 'getProvinces']);
+Route::get('/cities', [CustomerController::class, 'getCities']);
