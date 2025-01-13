@@ -19,12 +19,13 @@ class ProductFactory extends Factory
         return [
             'title' => fake()->text(),
             'description' => fake()->realText(2000),
-            'image' => fake()->imageUrl(),
+            'image' => 'https://picsum.photos/640/480',
             'price' => fake()->randomFloat(2,5000,20000),
             'created_at' => now(),
             'updated_at' => now(),
             'created_by' => 1,
-            'updated_by' => 1
+            'updated_by' => 1,
+            'published' => true,
         ];
     }
 }
