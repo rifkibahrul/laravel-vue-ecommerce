@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'created_at' => ( new \DateTime($this->created_at))->format('Y-m-d H:i:s'),
+            'is_admin' => $this->is_admin ? true : false,
         ];
     }
 }

@@ -64,6 +64,7 @@
                     >
                         Created_at
                     </TableHeaderCell>
+                    <TableHeaderCell field="role"> Role </TableHeaderCell>
                     <TableHeaderCell field="action"> Action </TableHeaderCell>
                 </tr>
             </thead>
@@ -83,6 +84,7 @@
                     <td class="border-b p-2">{{ user.name }}</td>
                     <td class="border-b p-2">{{ user.email }}</td>
                     <td class="border-b p-2">{{ user.created_at }}</td>
+                    <td class="border-b p-2">{{ user.is_admin ? 'Admin' : 'User' }}</td>
                     <td class="border-b p-2">
                         <Menu as="div" class="relative inline-block text-left">
                             <div>
