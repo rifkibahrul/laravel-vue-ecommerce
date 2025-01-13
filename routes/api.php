@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
@@ -31,6 +32,14 @@ Route::middleware('auth:sanctum', 'admin')->group(function(){
     Route::get('orders/status', [OrderController::class, 'getStatuses']);
     Route::post('orders/change-status/{order}/{status}', [OrderController::class, 'changeStatus']);
     Route::get('orders/{order}', [OrderController::class, 'view']);
+
+    Route::get('/dashboard/customers-count', [DashboardController::class, 'activeCustomers']);
+    Route::get('/dashboard/products-count', [DashboardController::class, 'publishedProducts']);
+    Route::get('/dashboard/orders-count', [DashboardController::class, 'ordersPayment']);
+    Route::get('/dashboard/income', [DashboardController::class, 'totalIncome']);
+    Route::get('/dashboard/orders-by-city', [DashboardController::class, 'ordersByCities']);
+    Route::get('/dashboard/latest-customers', [DashboardController::class, 'latestCustomers']);
+    Route::get('/dashboard/latest-orders', [DashboardController::class, 'latestOrders']);
 });
 
 Route::post('/login', [AuthController::class, 'login']);
