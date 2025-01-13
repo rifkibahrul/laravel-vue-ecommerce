@@ -27,7 +27,7 @@
                         customersCount
                     }}</span>
                 </template>
-                <Spinner v-else />
+                <Spinner v-else text="" class="" />
             </div>
             <!-- Customer Count End -->
             <!-- Products Count Start -->
@@ -44,7 +44,7 @@
                         productsCount
                     }}</span>
                 </template>
-                <Spinner v-else />
+                <Spinner v-else text="" class="" />
             </div>
             <!-- Products Count End -->
 
@@ -62,7 +62,7 @@
                         paidOrders
                     }}</span>
                 </template>
-                <Spinner v-else />
+                <Spinner v-else text="" class="" />
             </div>
             <!-- Paid Order End -->
 
@@ -80,7 +80,7 @@
                         totalIncome
                     }}</span>
                 </template>
-                <Spinner v-else />
+                <Spinner v-else text="" class="" />
             </div>
             <!-- Total Income End -->
         </div>
@@ -122,16 +122,16 @@
                         </p>
                     </div>
                 </template>
-                <Spinner v-else />
+                <Spinner v-else text="" class="" />
             </div>
             <!-- Latest Order End -->
 
-            <!-- Order By City Chart Start  -->
-            <!-- <div
+            <!-- Order Per City Chart Start  -->
+            <div
                 class="bg-white py-6 px-5 rounded-lg shadow flex flex-col items-center"
             >
                 <label for="" class="text-lg font-semibold block mb-2"
-                    >Orders by City</label
+                    >Orders per City</label
                 >
                 <template v-if="!loading.orderByCity">
                     <DoughnutChart
@@ -140,9 +140,9 @@
                         :data="orderByCity"
                     />
                 </template>
-                <Spinner v-else />
-            </div> -->
-            <!-- Order By City Chart End  -->
+                <Spinner v-else text="" class="" />
+            </div>
+            <!-- Order Per City Chart End  -->
 
             <!-- Lates Customer Start -->
             <div class="bg-white py-6 px-5 rounded-lg shadow">
@@ -158,7 +158,7 @@
                         </div>
                     </router-link>
                 </template>
-                <Spinner v-else/>
+                <Spinner v-else text="" class=""/>
             </div>
             <!-- Lates Customer End -->
         </div>
@@ -183,9 +183,9 @@ const loading = ref({
     productsCount: true,
     paidOrders: true,
     totalIncome: true,
-    orderByCity: true,
     latestCustomers: true,
     latestOrders: true,
+    orderByCity: true,
 });
 
 const customersCount = ref(0);
@@ -193,8 +193,8 @@ const productsCount = ref(0);
 const paidOrders = ref(0);
 const totalIncome = ref(0);
 const latestOrders = ref([]);
-const orderByCity = ref([]);
 const latestCustomers = ref([]);
+const orderByCity = ref([]);
 
 function updateDashboard() {
     const d = chosenDate.value;
@@ -204,8 +204,8 @@ function updateDashboard() {
         paidOrders: true,
         totalIncome: true,
         latestOrders: true,
-        orderByCity: true,
         latestCustomers: true,
+        orderByCity: true,
     };
     axiosClient
         .get(`/dashboard/customers-count`, { params: { d } })
@@ -234,16 +234,21 @@ function updateDashboard() {
         loading.value.totalIncome = false;
     });
     axiosClient
-        .get(`/dashboard/latest-orders`, { params: { d } })
-        .then(({ data: orders }) => {
-            latestOrders.value = orders.data;
-            loading.value.latestOrders = false;
+    .get(`/dashboard/latest-orders`, { params: { d } })
+    .then(({ data: orders }) => {
+        latestOrders.value = orders.data;
+        loading.value.latestOrders = false;
+    });
+    axiosClient
+        .get(`/dashboard/latest-customers`, { params: {d} })
+        .then(({ data: customers }) => {
+            latestCustomers.value = customers;
+            loading.value.latestCustomers = false;
         });
     axiosClient
         .get(`/dashboard/orders-by-city`, { params: { d } })
         .then(({ data: customer_addresses }) => {
             loading.value.orderByCity = false; // Menandakan proses loading selesai
-
             const chartData = {
                 labels: [],
                 datasets: [
@@ -268,12 +273,6 @@ function updateDashboard() {
             // Menyimpan chartData ke dalam orderByCity
             orderByCity.value = chartData;
         });
-    axiosClient
-        .get(`/dashboard/latest-customers`, { params: {d} })
-        .then(({ data: customers }) => {
-            latestCustomers.value = customers;
-            loading.value.latestCustomers = false;
-        })
 }
 
 function onDatePickerChange() {
