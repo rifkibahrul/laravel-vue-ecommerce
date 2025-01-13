@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,9 @@ Route::middleware('auth:sanctum', 'admin')->group(function(){
     Route::get('/dashboard/orders-by-city', [DashboardController::class, 'ordersByCities']);
     Route::get('/dashboard/latest-customers', [DashboardController::class, 'latestCustomers']);
     Route::get('/dashboard/latest-orders', [DashboardController::class, 'latestOrders']);
+
+    Route::get('/report/orders', [ReportController::class, 'orders']);
+    Route::get('/report/customers', [ReportController::class, 'customers']);
 });
 
 Route::post('/login', [AuthController::class, 'login']);

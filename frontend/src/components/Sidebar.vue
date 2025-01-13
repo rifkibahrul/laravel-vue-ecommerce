@@ -40,14 +40,14 @@
                 Customers
             </span>
         </router-link>
-        <!-- <router-link :to="{name: 'reports.orders'}" class="flex items-center p-2 rounded transition-colors hover:bg-black/30">
+        <router-link :to="{name: 'report.orders'}" class="flex items-center p-2 rounded transition-colors hover:bg-black/30" :class="linkClass('report.orders')" >
             <span class="mr-2 text-gray-300">
                 <ChartBarIcon class="w-5"/>
             </span>
-            <span class="text-xs">
+            <span class="text-lg">
                 Reports
             </span>
-        </router-link>  -->
+        </router-link> 
     </div>
 </template>
 
