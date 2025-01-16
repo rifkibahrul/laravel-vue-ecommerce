@@ -46,6 +46,8 @@
         <!-- Product Item End -->
         @endforeach
     </div>
-    {{ $products->links() }}
+    <div class="px-6">
+        {{ $products->links() }}
+    </div>
     @endif
 </x-app-layout>
