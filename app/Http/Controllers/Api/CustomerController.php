@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Enums\CustomerStatus;
 use App\Models\CustomerAddress;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -22,7 +23,7 @@ class CustomerController extends Controller
         $sortDirection = request('sort_direction', 'desc');
 
         $query = Customer::query()
-            ->select('customers.*', 'users.email') // Memilih kolom dari tabel users
+            ->select('customers.*', 'users.*') // Memilih kolom dari tabel users
             ->join('users', 'customers.user_id', '=', 'users.id') // Join tabel users
             ->orderBy("customers.$sortField", $sortDirection);
         if ($search) {
@@ -37,7 +38,10 @@ class CustomerController extends Controller
 
         return CustomerListResource::collection($paginator);
     }
+
     /**
+     * Menampilkan spesifik data
+     * 
      * @param \App\Models\Customer $customer
      * @return \Illuminate\Http\Response
      */
@@ -70,26 +74,31 @@ class CustomerController extends Controller
 
         $request->user()->save(); // Menyimpan perubahan user
 
-        // Perbarui data customer
-        $customer->fill([
+        $customerData = [
             'first_name' => $validatedData['first_name'],
             'last_name' => $validatedData['last_name'],
             'phone' => $validatedData['phone'],
-            'status' => $validatedData['status'],
-        ])->save();
+            'status' => $validatedData['status']? CustomerStatus::Active->value : CustomerStatus::Disabled->value,
+        ];
+    
+        $customer->fill($customerData);
+        $customer->save();
 
         // Perbarui atau buat data alamat customer
-        $customerAddress = $customer->customerAddress ?? new CustomerAddress();
+        if ($customer->customerAddress) {
+            $customerAddress = $customer->customerAddress;
+        } else {
+            $customerAddress = new CustomerAddress();
+            $customerAddress->customer()->associate($customer);
+        }
         $customerAddress->fill([
-            'address' => $validatedData['address'],
-            'province_id' => $validatedData['province_id'],
-            'province_name' => $validatedData['province_name'],
-            'city_id' => $validatedData['city_id'],
-            'city_name' => $validatedData['city_name'],
-            'zipcode' => $validatedData['zipcode'],
-        ]);
-        $customerAddress->customer()->associate($customer);
-        $customerAddress->save();
+            'address' => $request->input('address'),
+            'province_id' => $request->input('province_id'),
+            'city_id' => $request->input('city_id'),
+            'province_name' => $request->input('province_name'),
+            'city_name' => $request->input('city_name'),
+            'zipcode' => $request->input('zipcode'),
+        ])->save();
 
         // Kembalikan hasil update menggunakan CustomerResource
         return new CustomerResource($customer->load('customerAddress'));

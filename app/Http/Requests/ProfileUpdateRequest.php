@@ -22,6 +22,7 @@ class ProfileUpdateRequest extends FormRequest
             'first_name' => ['required'],
             'last_name' => ['required'],
             'phone' => ['required', 'min:7'],
+            'status' => ['required', 'boolean'],
             'address' => ['required'],
             'province_name' => ['required'],
             'city_name' => ['required'],

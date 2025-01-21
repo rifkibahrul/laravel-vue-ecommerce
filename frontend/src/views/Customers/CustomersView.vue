@@ -6,26 +6,67 @@
                 <h1 class="text-2xl font-semibold pb-2">{{ title }}</h1>
 
                 <!-- Informasi Dasar -->
+                <label
+                    for="name"
+                    class="block text-sm font-medium text-gray-700"
+                >
+                    Name
+                </label>
+                <CustomInput
+                    class="mb-2"
+                    v-model="customer.name"
+                    label="Name"
+                />
+                <label
+                    for="first_name"
+                    class="block text-sm font-medium text-gray-700"
+                >
+                    First Name
+                </label>
                 <CustomInput
                     class="mb-2"
                     v-model="customer.first_name"
                     label="First Name"
                 />
+                <label
+                    for="last_name"
+                    class="block text-sm font-medium text-gray-700"
+                >
+                    Last Name
+                </label>
                 <CustomInput
                     class="mb-2"
                     v-model="customer.last_name"
                     label="Last Name"
                 />
+                <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700"
+                >
+                    Email
+                </label>
                 <CustomInput
                     class="mb-2"
                     v-model="customer.email"
                     label="Email"
                 />
+                <label
+                    for="phone"
+                    class="block text-sm font-medium text-gray-700"
+                >
+                    Phone Number
+                </label>
                 <CustomInput
                     class="mb-2"
                     v-model="customer.phone"
                     label="Phone"
                 />
+                <label
+                    for="status"
+                    class="block text-sm font-medium text-gray-700"
+                >
+                    Status Account
+                </label>
                 <CustomInput
                     type="checkbox"
                     class="mb-2"
@@ -38,11 +79,11 @@
                     <h2
                         class="text-xl font-semibold mt-6 pb-2 border-b border-gray-300"
                     >
-                        Address
+                        Address Detail
                     </h2>
 
                     <div
-                        class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2"
+                        class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 mt-3"
                     >
                         <div>
                             <label
@@ -191,9 +232,40 @@ function fetchCities(provinceId) {
 
 function onSubmit() {
     loading.value = true;
+
+    // set province_name dan city_name berdasarkan ID yang dipilih
+    const selectedProvince = provinces.value.find(
+        (p) => p.province_id === customer.value.customerAddress.province_id
+    );
+    const selectedCity = cities.value.find(
+        (c) => c.city_id === customer.value.customerAddress.city_id
+    );
+
+    customer.value.customerAddress.province_name =
+        selectedProvince?.province || "";
+    customer.value.customerAddress.city_name = selectedCity?.city_name || "";
+
+    const data = {
+        id: customer.value.id,
+        name: customer.value.name,
+        email: customer.value.email,
+        first_name: customer.value.first_name,
+        last_name: customer.value.last_name,
+        phone: customer.value.phone,
+        status: customer.value.status,
+        address: customer.value.customerAddress.address,
+        province_id: customer.value.customerAddress.province_id,
+        city_id: customer.value.customerAddress.city_id,
+        province_name: customer.value.customerAddress.province_name,
+        city_name: customer.value.customerAddress.city_name,
+        zipcode: customer.value.customerAddress.zipcode,
+    };
+    console.log(data);
+    
     if (customer.value.id) {
+        console.log(customer.value.status);
         customer.value.status = !!customer.value.status;
-        store.dispatch("updateCustomer", customer.value).then((response) => {
+        store.dispatch("updateCustomer", data).then((response) => {
             loading.value = false;
             if (response.status === 200) {
                 // TODO show notification
@@ -203,7 +275,7 @@ function onSubmit() {
         });
     } else {
         store
-            .dispatch("createCustomer", customer.value)
+            .dispatch("createCustomer", data)
             .then((response) => {
                 loading.value = false;
                 if (response.status === 201) {
@@ -224,6 +296,7 @@ onMounted(() => {
     store.dispatch("getCustomer", route.params.id).then(({ data }) => {
         title.value = `Update customer: "${data.first_name} ${data.last_name}"`;
         customer.value = data;
+        console.log(customer.value.status);
         customer.value.customerAddress = customer.value.customerAddress || {};
         if (customer.value.customerAddress.province_id) {
             fetchCities(customer.value.customerAddress.province_id);
