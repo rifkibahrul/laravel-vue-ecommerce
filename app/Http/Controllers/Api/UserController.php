@@ -8,6 +8,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Customer;
 
 class UserController extends Controller
 {
@@ -37,6 +38,13 @@ class UserController extends Controller
         $data['updated_by'] = $request->user()->id;
 
         $user = User::create($data);
+
+        $customer = new Customer();
+        $names = explode(" ", $user->name);
+        $customer->user_id = $user->id;
+        $customer->first_name = $names[0];
+        $customer->last_name = $names[1] ?? '';
+        $customer->save();
 
         return new UserResource($user);
     }

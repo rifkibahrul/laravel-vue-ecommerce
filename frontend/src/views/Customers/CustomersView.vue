@@ -260,10 +260,10 @@ function onSubmit() {
         city_name: customer.value.customerAddress.city_name,
         zipcode: customer.value.customerAddress.zipcode,
     };
-    console.log(data);
+    // console.log(data);
     
     if (customer.value.id) {
-        console.log(customer.value.status);
+        // console.log(customer.value.status);
         customer.value.status = !!customer.value.status;
         store.dispatch("updateCustomer", data).then((response) => {
             loading.value = false;
@@ -296,7 +296,7 @@ onMounted(() => {
     store.dispatch("getCustomer", route.params.id).then(({ data }) => {
         title.value = `Update customer: "${data.first_name} ${data.last_name}"`;
         customer.value = data;
-        console.log(customer.value.status);
+        // console.log(customer.value.status);
         customer.value.customerAddress = customer.value.customerAddress || {};
         if (customer.value.customerAddress.province_id) {
             fetchCities(customer.value.customerAddress.province_id);
