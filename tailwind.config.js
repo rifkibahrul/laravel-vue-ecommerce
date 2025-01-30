@@ -10,6 +10,12 @@ export default {
     ],
 
     theme: {
+        screens: {
+            sm: '340px',
+            md: '540px',
+            lg: '768px',
+            xl: '1180px',
+        },
         extend: {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
@@ -25,6 +31,13 @@ export default {
                 "fade-in-up": "fade-in-up 1.2s ease-in-out infinite",
             },
         },
+        container: {
+            center: true,
+            padding: {
+                DEFAULT: "12px",
+                md: "32px"
+            }
+        }
     },
 
     plugins: [forms],

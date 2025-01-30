@@ -12,6 +12,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <!-- Icons -->
+    <!-- <link rel="stylesheet" href="{{ asset('home-asset/icons/css/fontawesom.css') }}"> -->
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -105,26 +108,25 @@
                     </div>
                 </div>
                 <!-- Tautan -->
-                <div class="font-medium">
+                <div>
                     <h2 class="font-semibold text-2xl mb-5">Tautan</h2>
                     <ul class="space-y-2">
                         <li>
                             <a href="#" class="group transition duration-300">
                                 Home
-                                <!-- Span untuk underline -->
-                                <span class="block h-0.5 max-w-0 group-hover:max-w-12 transition-all duration-500 bg-sky-950"></span>
+                                <span class="block h-0.5 max-w-0 group-hover:max-w-12 transition-all duration-500 bg-sky-950 rounded"></span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="group transition duration-300">
                                 Shop
-                                <span class="block h-0.5 max-w-0 group-hover:max-w-11 transition-all duration-500 bg-sky-950"></span>
+                                <span class="block h-0.5 max-w-0 group-hover:max-w-11 transition-all duration-500 bg-sky-950 rounded"></span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="group transition duration-300">
                                 About
-                                <span class="block h-0.5 max-w-0 group-hover:max-w-12 transition-all duration-500 bg-sky-950"></span>
+                                <span class="block h-0.5 max-w-0 group-hover:max-w-12 transition-all duration-500 bg-sky-950 rounded"></span>
                             </a>
                         </li>
                     </ul>

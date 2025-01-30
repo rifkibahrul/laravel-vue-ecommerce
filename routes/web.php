@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -26,6 +27,8 @@ use Illuminate\Support\Facades\Route;
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['guestOrVerified'])->group(function () {
+    Route::get('/test', [HomeController::class, 'index'])->name('test');
+    
     Route::get('/', [ProductController::class, 'index'])->name('home');
     Route::get('/product/{product:slug}', [ProductController::class, 'view'])->name('product.view');
 
