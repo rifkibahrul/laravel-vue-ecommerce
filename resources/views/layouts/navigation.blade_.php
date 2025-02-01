@@ -3,7 +3,10 @@
             open: false, 
             mobileMenuOpen: false, 
             cartItemsCount: {{ \App\Helpers\Cart::getCartItemsCount() }}, isScrolled: false}"
-    @cart-change.window="cartItemsCount = $event.detail.count">
+    @cart-change.window="cartItemsCount = $event.detail.count"
+    x-on:scroll.window="isScrolled = window.pageYOffset > 50"
+    :class="isScrolled ? 'bg-gray-500/30 backdrop-blur-lg' : 'bg-white shadow-lg'"
+    class="fixed top-0 w-full z-10 transition-all duration-300">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -12,17 +15,14 @@
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
                         <!-- <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" /> -->
-                        <img src="{{ asset('assets/images/Logo.svg') }}" alt="logo" class="block h-14 w-auto">
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Toko Absurd</span>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 lg:-my-px lg:ms-10 lg:flex ">
-                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')" class="hover:text-secondary transition duration-300">
+                <div class="hidden space-x-8 lg:-my-px lg:ms-10 lg:flex">
+                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                         {{ __('Home') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('product')" :active="request()->routeIs('product')" class="hover:text-secondary transition duration-300">
-                        {{ __('Product') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -72,11 +72,12 @@
                     </x-slot>
                 </x-dropdown>
                 @else
-                <a href="{{ route('login') }}" class="relative inline-flex items-center justify-center overflow-hidden shadow-2xl transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-slate-700 before:duration-500 before:ease-out hover:shadow-slate-700 border border-slate-700 py-2 px-4 rounded hover:text-white hover:before:h-56 hover:before:w-56 ml-2">
-                    <span class="relative z-10">Masuk</span>
+                <a href="{{ route('login') }}" class="text-sm group transition duration-300 ml-5">
+                    {{ __('Login') }}
+                    <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-sky-950"></span>
                 </a>
-                <a href="{{ route('register') }}" class="bg-slate-700 text-white relative inline-flex items-center justify-center overflow-hidden shadow-2xl transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-white before:duration-500 before:ease-out hover:shadow-slate-700 border border-slate-700 py-2 px-4 rounded hover:text-black hover:before:h-56 hover:before:w-56 ml-2">
-                    <span class="relative z-10">Daftar</span>
+                <a href="{{ route('register') }}" class="relative inline-flex items-center justify-center overflow-hidden shadow-2xl transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-slate-700 before:duration-500 before:ease-out hover:shadow-slatebg-slate-700 border border-slate-700 py-2 px-3 rounded hover:text-white hover:before:h-56 hover:before:w-56 mx-5">
+                    <span class="relative z-10">Register Now</span>
                 </a>
                 @endauth
             </div>

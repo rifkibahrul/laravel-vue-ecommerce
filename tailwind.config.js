@@ -19,6 +19,7 @@ export default {
         extend: {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
+                lora: ["Lora", "serif"],
             },
             keyframes: {
                 "fade-in-up": {
@@ -30,6 +31,18 @@ export default {
             animation: {
                 "fade-in-up": "fade-in-up 1.2s ease-in-out infinite",
             },
+            colors: {
+                primary: '#F7F1F0', // Light beige
+                secondary: '#FD915A', // Vibrant orange
+                accent: '#E5D3F9', // Soft lavender
+                neutral: {
+                    100: '#F3F4F6', // Light gray
+                    200: '#E5E7EB', // Medium gray
+                    700: '#4A5568', // Dark gray
+                },
+                success: '#10B981', // Green
+                error: '#EF4444', // Red
+            }
         },
         container: {
             center: true,
