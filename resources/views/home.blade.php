@@ -1,9 +1,9 @@
 <x-app-layout>
     <!-- Hero Section -->
-    <section class="hero h-[678px] bg-no-repeat bg-center lg:bg-cover xl:rounded-bl-[290px] relative" style="background-image: url('{{ asset('assets/images/bg-img.jpg') }}');">
+    <section class="hero h-[789px] bg-no-repeat bg-center lg:bg-cover xl:rounded-bl-[290px] relative" style="background-image: url('{{ asset('assets/images/bg-img.jpg') }}');">
         <div class="container mx-auto h-full flex items-center justify-center xl:justify-start">
             <!-- text -->
-            <div class="w-[567px] flex flex-col items-center text-center xl:items-start">
+            <div class="hero__text w-[567px] flex flex-col items-center text-center xl:items-start">
                 <h1 class="text-[64px] lg:text-[84px] mb-8 font-extrabold leading-none text-center xl:text-left">We Are Here For Your Serve</h1>
                 <h2 class="text-[25px] leading-tight mb-8 text-center xl:text-left">We deliver The best quality product</h2>
                 <a href="#" class="font-bold relative h-[50px] w-40 overflow-hidden border border-secondary bg-white px-3 py-2 text-secondary shadow-2xl transition-all hover:text-white hover:shadow-secondary z-0 flex justify-center items-center rounded-xl bg-[length:0%_100%] bg-no-repeat bg-gradient-to-r from-secondary to-secondary hover:bg-[length:100%_100%] hover:duration-500">
@@ -14,11 +14,11 @@
     </section>
 
     <!-- Service -->
-    <section class="service mt-[80px] xl:mt-[150px] relative z-20">
+    <section class="services mt-[80px] xl:mt-[150px] relative z-20">
         <div class="container mx-auto">
             <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 <!-- Card 1 -->
-                <div class="border border-neutral-200 p-5 cursor-pointer rounded-md hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-5 flex flex-col items-center group hover:border-secondary">
+                <div class="services__service border border-neutral-200 p-5 cursor-pointer rounded-md hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-5 flex flex-col items-center group hover:border-secondary">
                     <div class="flex flex-col items-center gap-5">
                         <div class="bg-pink-300 p-8 rounded-full flex items-center justify-center relative group-hover:bg-secondary transition-colors duration-300">
                             <div class="absolute inset-1.5 border-2 border-white rounded-full"></div>
@@ -32,7 +32,7 @@
                 </div>
 
                 <!-- Card 2 -->
-                <div class="border border-neutral-200 p-5 cursor-pointer rounded-md hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-5 flex flex-col items-center group hover:border-secondary">
+                <div class="services__service border border-neutral-200 p-5 cursor-pointer rounded-md hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-5 flex flex-col items-center group hover:border-secondary">
                     <div class="flex flex-col items-center gap-5">
                         <div class="bg-orange-300  p-8 rounded-full flex items-center justify-center relative group-hover:bg-secondary transition-colors duration-300">
                             <div class="absolute inset-1.5 border-2 border-white rounded-full"></div>
@@ -47,7 +47,7 @@
                 </div>
 
                 <!-- Card 3 -->
-                <div class="border border-neutral-200 p-5 cursor-pointer rounded-md hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-5 flex flex-col items-center group hover:border-secondary">
+                <div class="services__service border border-neutral-200 p-5 cursor-pointer rounded-md hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-5 flex flex-col items-center group hover:border-secondary">
                     <div class="flex flex-col items-center gap-5">
                         <div class="bg-cyan-300  p-8 rounded-full flex items-center justify-center relative group-hover:bg-secondary transition-colors duration-300">
                             <div class="absolute inset-1.5 border-2 border-white rounded-full"></div>
@@ -61,7 +61,7 @@
                 </div>
 
                 <!-- Card 4 -->
-                <div class="border border-neutral-200 p-5 cursor-pointer rounded-md hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-5 flex flex-col items-center group hover:border-secondary">
+                <div class="services__service border border-neutral-200 p-5 cursor-pointer rounded-md hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-5 flex flex-col items-center group hover:border-secondary">
                     <div class="flex flex-col items-center gap-5">
                         <div class="bg-emerald-300  p-8 rounded-full flex items-center justify-center relative group-hover:bg-secondary transition-colors duration-300">
                             <div class="absolute inset-1.5 border-2 border-white rounded-full"></div>
@@ -79,9 +79,9 @@
 
     <!-- Latest Product -->
     <section class="latest-product mt-[80px] xl:mt-[150px] relative z-20">
-        <!-- Text -->
         <div class="container mx-auto">
-            <div class="text-center mb-8">
+            <!-- Text -->
+            <div class="latest__text text-center mb-8">
                 <span class="font-lora font-semibold italic text-base text-secondary">Latest Products</span>
                 <h2 class="text-3xl font-bold mt-2">Our Products</h2>
                 <p class="text-gray-700 mt-2">Explore our wide range of products and find the perfect fit for your lifestyle</p>
@@ -93,7 +93,7 @@
                     @foreach($latestProducts as $product)
                     <div x-init="formatRupiah = (value) => {
                         return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value);}"
-                        class="relative">
+                        class="latest__product relative">
                         <!-- Bungkus seluruh konten produk dengan <a> -->
                         <a href="{{ route('product.view', $product->slug) }}" class="block rounded-2xl bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer">
                             <!-- Product image -->
@@ -121,12 +121,12 @@
 
     <!-- View product -->
     <section class="view-product mt-[80px] xl:mt-[150px] relative z-20">
-        <div class="container mx-auto rounded-[70px] py-[80px]" style="background-image: url('{{ asset('assets/images/Frame 6.jpg') }}');">
-            <div class="product__text max-w-[640px] mx-auto text-center">
-                <h2 class="text-[50px] mb-4 font-black leading-tight">Start Today</h2>
-                <p class="mb-8 max-w-sm xl:max-w-none mx-auto">Get the best quality products</p>
+        <div class="view__bg container mx-auto rounded-[70px] py-[80px]" style="background-image: url('{{ asset('assets/images/Frame 6.jpg') }}');">
+            <div class="view__text max-w-[640px] mx-auto text-center">
+                <h2 class="text-[50px] mb-4 font-black leading-tight">Start Shopping Now!</h2>
+                <p class="text-[20px] mb-8 max-w-sm xl:max-w-none mx-auto">Get the best quality products at affordable prices, backed by our commitment to excellence and customer satisfaction</p>
                 <a href="#" class="font-bold relative h-[50px] w-40 overflow-hidden border border-secondary bg-white px-3 py-2 text-secondary shadow-2xl transition-all hover:text-white hover:shadow-secondary z-0 flex justify-center items-center rounded-xl bg-[length:0%_100%] bg-no-repeat bg-gradient-to-r from-secondary to-secondary hover:bg-[length:100%_100%] hover:duration-500 mx-auto">
-                    <span class="relative z-10">Register Now <i class="ri-arrow-right-line"></i></span>
+                    <span class="relative z-10">Shop Now <i class="ri-arrow-right-line"></i></span>
                 </a>
             </div>
         </div>

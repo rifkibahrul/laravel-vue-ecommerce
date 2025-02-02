@@ -84,78 +84,81 @@
     <!--/ Toast -->
 
     <!-- Footer -->
-    <footer class="footer mt-[80px] xl:mt-[120px] relative z-20 min-h-fit">
-        <div class="w-full bg-neutral-200 p-5">
-            <div class="container mx-auto">
-                <div class="flex flex-col xl:flex-row xl:gap-[100px] xl:mb-[120px] xl:mt-[60px]">
-                    <div class="footer__item w-full max-w-[400px] mx-auto mb-8 text-center xl:text-left">
-                        <!-- Logo -->
-                        <a class="flex justify-center xl:justify-start mb-8" href="">
-                            <img src="{{ asset('assets/images/Logo.svg') }}" alt="">
-                        </a>
-                        <p class="mb-8 text-xl">
-                            Experience the best online shopping with us!
-                        </p>
-                        <!-- Socials -->
-                        <ul class="flex gap-[54px] justify-center xl:justify-start">
+    <footer class="footer mt-[80px] xl:mt-[120px] relative z-20 min-h-fit border-t-2">
+        <div class="container mx-auto px-0">
+            <div class="flex flex-col xl:flex-row xl:gap-[100px] mb-[64px] xl:mb-[100px] mt-[60px]">
+                <div class="footer__item w-full max-w-[400px] mx-auto mb-8 text-center xl:text-left">
+                    <!-- Logo -->
+                    <a class="flex justify-center xl:justify-start mb-8" href="">
+                        <img src="{{ asset('assets/images/Logo.svg') }}" alt="">
+                    </a>
+                    <p class="mb-8 text-xl">
+                        Experience the best online shopping with us!
+                    </p>
+                    <!-- Socials -->
+                    <ul class="flex gap-[54px] justify-center xl:justify-start">
+                        <li>
+                            <a class="hover:text-secondary" href=""><i class="ri-instagram-fill text-2xl"></i></a>
+                        </li>
+                        <li>
+                            <a class="hover:text-secondary" href=""><i class="ri-twitter-fill text-2xl"></i></a>
+                        </li>
+                        <li>
+                            <a class="hover:text-secondary" href=""><i class="ri-linkedin-fill text-2xl"></i></a>
+                        </li>
+                        <li>
+                            <a class="hover:text-secondary" href=""><i class="ri-facebook-fill text-2xl"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="flex-1 flex flex-col xl:flex-row text-center xl:text-left gap-12 xl:gap-[100px] xl:justify-end">
+                    <div class="footer__item">
+                        <h3 class="text-[25px] mb-3 font-bold">Page</h3>
+                        <ul class="flex flex-col gap-4 text-[15px]">
                             <li>
-                                <a class="hover:text-secondary" href=""><i class="ri-instagram-fill text-2xl"></i></a>
+                                <a class="hover:text-secondary" href="">Home</a>
                             </li>
                             <li>
-                                <a class="hover:text-secondary" href=""><i class="ri-twitter-fill text-2xl"></i></a>
+                                <a class="hover:text-secondary" href="">Shop</a>
                             </li>
                             <li>
-                                <a class="hover:text-secondary" href=""><i class="ri-linkedin-fill text-2xl"></i></a>
-                            </li>
-                            <li>
-                                <a class="hover:text-secondary" href=""><i class="ri-facebook-fill text-2xl"></i></a>
+                                <a class="hover:text-secondary" href="">About</a>
                             </li>
                         </ul>
                     </div>
-                    <div class="flex-1 flex flex-col xl:flex-row text-center xl:text-left gap-12 xl:gap-[100px] xl:justify-end">
-                        <div class="footer__item">
-                            <h3 class="text-[25px] mb-3 font-bold">Page</h3>
-                            <ul class="flex flex-col gap-4 text-[15px]">
-                                <li>
-                                    <a href="">Home</a>
-                                </li>
-                                <li>
-                                    <a href="">Shop</a>
-                                </li>
-                                <li>
-                                    <a href="">About Us</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="footer__item">
-                            <h3 class="text-[25px] mb-3 font-bold">Service</h3>
-                            <ul class="flex flex-col gap-4 text-[15px]">
-                                <li>
-                                    <P>Fast Delivery</P>
-                                </li>
-                                <li>
-                                    <P>24/7 Support</P>
-                                </li>
-                                <li>
-                                    <P>Guaranteed Quality</P>
-                                </li>
-                                <li>
-                                    <P>Affordable Price</P>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="footer__item max-w-[260px] mx-auto xl:mx-0">
-                            <h3 class="text-[25px] mb-3 font-bold">Have a Questions?</h3>
-                            <div class="flex flex-col gap-6 text-[18px]">
-                                <p>Jl. Gading Indah 847, Surabaya, Jawa Timur</p>
-                                <p>contact@inflame.com</p>
-                                <p>(1234) 567890</p>
-                            </div>
+                    <div class="footer__item">
+                        <h3 class="text-[25px] mb-3 font-bold">Service</h3>
+                        <ul class="flex flex-col gap-4 text-[15px]">
+                            <li>
+                                <P>Fast Delivery</P>
+                            </li>
+                            <li>
+                                <P>24/7 Support</P>
+                            </li>
+                            <li>
+                                <P>Guaranteed Quality</P>
+                            </li>
+                            <li>
+                                <P>Affordable Price</P>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer__item max-w-[260px] mx-auto xl:mx-0">
+                        <h3 class="text-[25px] mb-3 font-bold">Have a Questions?</h3>
+                        <div class="flex flex-col gap-6 text-[18px]">
+                            <p>Jl. Gading Indah 847, Surabaya, Jawa Timur</p>
+                            <p>contact@inflame.com</p>
+                            <p>(1234) 567890</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- <div class="bg-neutral-200 p-5">
+        </div> -->
+
+        <!-- Copyright -->
+        <p class="footer__copyright text-center text-lg py-10 border-t-2">Copyright &copy; inflame 2024. All rights reserved.</p>
     </footer>
 
     <!-- JQuery -->
