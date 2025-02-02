@@ -89,8 +89,8 @@
             <div class="flex flex-col xl:flex-row xl:gap-[100px] mb-[64px] xl:mb-[100px] mt-[60px]">
                 <div class="footer__item w-full max-w-[400px] mx-auto mb-8 text-center xl:text-left">
                     <!-- Logo -->
-                    <a class="flex justify-center xl:justify-start mb-8" href="">
-                        <img src="{{ asset('assets/images/Logo.svg') }}" alt="">
+                    <a class="flex justify-center xl:justify-start mb-8" href="{{ route('home') }}">
+                        <img src="{{ asset('assets/images/Logo.svg') }}" alt="inflame">
                     </a>
                     <p class="mb-8 text-xl">
                         Experience the best online shopping with us!
@@ -116,10 +116,10 @@
                         <h3 class="text-[25px] mb-3 font-bold">Page</h3>
                         <ul class="flex flex-col gap-4 text-[15px]">
                             <li>
-                                <a class="hover:text-secondary" href="">Home</a>
+                                <a class="hover:text-secondary" href="{{ route('home') }}">Home</a>
                             </li>
                             <li>
-                                <a class="hover:text-secondary" href="">Shop</a>
+                                <a class="hover:text-secondary" href="{{ route('product') }}">Shop</a>
                             </li>
                             <li>
                                 <a class="hover:text-secondary" href="">About</a>

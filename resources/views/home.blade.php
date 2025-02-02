@@ -6,8 +6,8 @@
             <div class="hero__text w-[567px] flex flex-col items-center text-center xl:items-start">
                 <h1 class="text-[64px] lg:text-[84px] mb-8 font-extrabold leading-none text-center xl:text-left">We Are Here For Your Serve</h1>
                 <h2 class="text-[25px] leading-tight mb-8 text-center xl:text-left">We deliver The best quality product</h2>
-                <a href="#" class="font-bold relative h-[50px] w-40 overflow-hidden border border-secondary bg-white px-3 py-2 text-secondary shadow-2xl transition-all hover:text-white hover:shadow-secondary z-0 flex justify-center items-center rounded-xl bg-[length:0%_100%] bg-no-repeat bg-gradient-to-r from-secondary to-secondary hover:bg-[length:100%_100%] hover:duration-500">
-                    <span class="relative z-10">Shop Now</span>
+                <a href="{{ route('register') }}" class="font-bold relative h-[50px] w-40 overflow-hidden border border-secondary bg-white px-3 py-2 text-secondary shadow-2xl transition-all hover:text-white hover:shadow-secondary z-0 flex justify-center items-center rounded-xl bg-[length:0%_100%] bg-no-repeat bg-gradient-to-r from-secondary to-secondary hover:bg-[length:100%_100%] hover:duration-500">
+                    <span class="relative z-10">Register <i class="ri-login-box-line text-lg"></i></span>
                 </a>
             </div>
         </div>
@@ -98,9 +98,7 @@
                         <a href="{{ route('product.view', $product->slug) }}" class="block rounded-2xl bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer">
                             <!-- Product image -->
                             <img src="{{ asset($product->image) }}" alt="{{ $product->title }}" class="object-cover h-36 rounded-t-2xl w-full" />
-
                             <div class="flex-grow p-4 flex flex-col justify-between">
-
                                 <!-- Product title -->
                                 <div>
                                     <h3 class="text-base font-semibold w-[120px] truncate stretched-link block mb-2">
@@ -125,7 +123,7 @@
             <div class="view__text max-w-[640px] mx-auto text-center">
                 <h2 class="text-[50px] mb-4 font-black leading-tight">Start Shopping Now!</h2>
                 <p class="text-[20px] mb-8 max-w-sm xl:max-w-none mx-auto">Get the best quality products at affordable prices, backed by our commitment to excellence and customer satisfaction</p>
-                <a href="#" class="font-bold relative h-[50px] w-40 overflow-hidden border border-secondary bg-white px-3 py-2 text-secondary shadow-2xl transition-all hover:text-white hover:shadow-secondary z-0 flex justify-center items-center rounded-xl bg-[length:0%_100%] bg-no-repeat bg-gradient-to-r from-secondary to-secondary hover:bg-[length:100%_100%] hover:duration-500 mx-auto">
+                <a href="{{ route('product') }}" class="font-bold relative h-[50px] w-40 overflow-hidden border border-secondary bg-white px-3 py-2 text-secondary shadow-2xl transition-all hover:text-white hover:shadow-secondary z-0 flex justify-center items-center rounded-xl bg-[length:0%_100%] bg-no-repeat bg-gradient-to-r from-secondary to-secondary hover:bg-[length:100%_100%] hover:duration-500 mx-auto">
                     <span class="relative z-10">Shop Now <i class="ri-arrow-right-line"></i></span>
                 </a>
             </div>

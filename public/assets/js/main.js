@@ -21,4 +21,4 @@ sr.reveal(".view__bg", { delay: 800 });
 sr.reveal(".view__text");
 
 // Footer
-sr.reveal(".footer__item", { distance: "100px", interval: 100 });
+// sr.reveal(".footer__item", { distance: "100px", interval: 100 });
