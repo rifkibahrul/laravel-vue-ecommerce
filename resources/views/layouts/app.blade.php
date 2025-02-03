@@ -30,6 +30,9 @@
 </head>
 
 <body class="font-sans antialiased bg-primary">
+    <!-- Loading Spinner -->
+    @include('components.loading-spinner')
+    
     <!-- Page Heading -->
     <!-- <header class="absolute top-0 left-0 w-full flex items-center z-10 transition duration-300 ease-in-out"> -->
     <header class="sticky top-0 shadow-xl z-30 bg-white">
