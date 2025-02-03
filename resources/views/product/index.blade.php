@@ -6,7 +6,7 @@
         </div>
         @else
         <div class="container mx-auto">
-            <div class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-5">
+            <div class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-12">
                 @foreach($products as $product)
                 <!-- Product Item -->
                 <div
@@ -47,7 +47,7 @@
                 </div>
                 @endforeach
             </div>
-            <div class="px-6">
+            <div class="px-6 mt-6">
                 {{ $products->links() }}
             </div>
         </div>
