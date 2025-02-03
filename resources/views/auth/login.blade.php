@@ -23,7 +23,7 @@
                 <div class="flex flex-col gap-2.5">
                     <!-- <x-input-label for="email" :value="__('Email')" /> -->
                     <label for="email" class="text-base font-semibold">Email Address</label>
-                    <x-text-input id="email" class="form-input" style="background: url('{{ asset('assets/svgs/ic-email.svg') }}') no-repeat; background-position: 16px center;" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Your email address" />
+                    <x-text-input id="email" class="form-input" style="background: url('{{ asset('assets/svgs/ic-email.svg') }}') no-repeat; background-position: 16px center;" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="Your email address" />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
 
@@ -31,7 +31,7 @@
                 <div class="flex flex-col gap-2.5">
                     <!-- <x-input-label for="password" :value="__('Password')" /> -->
                     <label for="password" class="text-base font-semibold">Password</label>
-                    <x-text-input id="password" class="block mt-1 w-full"
+                    <x-text-input id="password"
                         type="password"
                         name="password"
                         class="form-input"
@@ -56,7 +56,7 @@
                     </a>
                     @endif
 
-                    <x-primary-button class="ms-3">
+                    <x-primary-button class="ms-3 hover:bg-orange-600">
                         {{ __('Log in') }}
                     </x-primary-button>
                 </div>
@@ -64,7 +64,7 @@
         </form>
         <a
             href="{{ route('register') }}"
-            class="font-semibold text-lg mt-[30px] underline">
+            class="font-semibold text-lg mt-[30px] underline hover:text-secondary">
             {{ __('Create New Account') }}
         </a>
         <!-- <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">

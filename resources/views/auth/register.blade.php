@@ -1,56 +1,72 @@
 <x-app-layout>
-    <div class="flex flex-col justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
-            <form method="POST" action="{{ route('register') }}">
+    <div class="flex flex-col items-center px-6 py-10">
+        <!-- Logo -->
+        <img src="{{ asset('assets/images/Logo.svg') }}" alt="logo" class="mb-[53px]">
+
+        <!-- Form -->
+        <form method="POST" action="{{ route('register') }}" class="mx-auto max-w-[345px] w-full p-6 bg-white rounded-3xl">
+            <div class="flex flex-col gap-5">
+                <p class="text-[25px] font-bold">
+                    New Account
+                </p>
                 @csrf
-        
+    
                 <!-- Name -->
-                <div>
-                    <x-input-label for="name" :value="__('Name')" />
-                    <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                <div class="flex flex-col gap-2.5">
+                    <!-- <x-input-label for="name" :value="__('Name')" /> -->
+                    <label for="name" class="text-base font-semibold">Username</label>
+                    <x-text-input id="name" class="form-input" style="background: url('{{ asset('assets/svgs/ic-profile.svg') }}') no-repeat; background-position: 16px center;" type="text" name="name" :value="old('name')" required autocomplete="name" placeholder="Write your username" />
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
-        
+    
                 <!-- Email Address -->
-                <div class="mt-4">
-                    <x-input-label for="email" :value="__('Email')" />
-                    <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+                <div class="flex flex-col gap-2.5">
+                    <!-- <x-input-label for="email" :value="__('Email')" /> -->
+                    <label for="email" class="text-base font-semibold">Email Address</label>
+                    <x-text-input id="email" class="form-input" style="background: url('{{ asset('assets/svgs/ic-email.svg') }}') no-repeat; background-position: 16px center;" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="Your email address" />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
-        
+    
                 <!-- Password -->
-                <div class="mt-4">
-                    <x-input-label for="password" :value="__('Password')" />
-        
-                    <x-text-input id="password" class="block mt-1 w-full"
-                                    type="password"
-                                    name="password"
-                                    required autocomplete="new-password" />
-        
+                <div class="flex flex-col gap-2.5">
+                    <!-- <x-input-label for="password" :value="__('Password')" /> -->
+                    <label for="password" class="text-base font-semibold">Password</label>
+                    <x-text-input id="password" class="form-input"
+                        type="password"
+                        name="password"
+                        style="background: url('{{ asset('assets/svgs/ic-lock.svg') }}') no-repeat; background-position: 16px center;"
+                        required autocomplete="new-password" 
+                        placeholder="Protect your password"/>
+    
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
-        
+    
                 <!-- Confirm Password -->
-                <div class="mt-4">
-                    <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-        
-                    <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                    type="password"
-                                    name="password_confirmation" required autocomplete="new-password" />
-        
+                <div class="flex flex-col gap-2.5">
+                    <!-- <x-input-label for="password_confirmation" :value="__('Confirm Password')" /> -->
+                    <label for="password_confirmation" class="text-base font-semibold">Confirm Password</label>
+    
+                    <x-text-input id="password_confirmation" class="form-input"
+                        type="password"
+                        name="password_confirmation" 
+                        style="background: url('{{ asset('assets/svgs/ic-lock.svg') }}') no-repeat; background-position: 16px center;"
+                        required autocomplete="new-password" 
+                        placeholder="Protect your password"/>
+    
                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 </div>
-        
-                <div class="flex items-center justify-end mt-4">
-                    <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                        {{ __('Already registered?') }}
-                    </a>
-        
-                    <x-primary-button class="ms-4">
-                        {{ __('Register') }}
-                    </x-primary-button>
-                </div>
-            </form>
+    
+                <x-primary-button class="hover:bg-orange-600">
+                    {{ __('Register') }}
+                </x-primary-button>
+            </div>
+        </form>
+        <div class="flex items-center justify-end mt-4">
+            <a class="font-semibold text-lg mt-[30px] underline hover:text-secondary" href="{{ route('login') }}">
+                {{ __('Already registered?') }}
+            </a>
         </div>
+        <!-- <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+        </div> -->
     </div>
 </x-app-layout>
