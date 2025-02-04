@@ -39,8 +39,10 @@
                 @auth
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                        <button class="flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-semibold rounded-md text-gray-500 dark:text-gray-400  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                            <div class="bg-white rounded-full p-[5px] flex justify-center items-center">
+                                <img src="{{ asset('assets/svgs/avatar.svg') }}" class="size-[35px] rounded-full mr-3" alt="">{{ Auth::user()->name }}
+                            </div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -51,23 +53,25 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('order.index')">
-                            {{ __('Orders') }}
+                        <x-dropdown-link :href="route('order.index')" :active="request()->routeIs('order.*')" class="hover:text-secondary transition duration-300">
+                            <img src="{{ asset('assets/svgs/ic-note.svg') }}" alt="order" class="mr-2 w-5 h-5">{{ __('My Orders') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                        <x-dropdown-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')" class="hover:text-secondary transition duration-300">
+                            <img src="{{ asset('assets/svgs/ic-profile.svg') }}" alt="profile" class="mr-2 w-5 h-5">{{ __('Profile') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
+                            <!-- Logout Section -->
+                            <x-dropdown-link :href="route('logout')" class="hover:text-secondary transition duration-300"
                                 onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                        this.closest('form').submit();">
+                                <img src="{{ asset('assets/svgs/logout.svg') }}" alt="" class="mr-2 w-5 h-5">{{ __('Log Out') }}
                             </x-dropdown-link>
+
                         </form>
                     </x-slot>
                 </x-dropdown>
@@ -94,13 +98,16 @@
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
+    <!-- Responsive Navigation Menu Mobile Screen-->
     <div :class="{'block': open, 'hidden':! open}" class="hidden lg:hidden">
 
         <!-- Responsive Main Navigation Menu -->
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                {{ __('Home') }}
+            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')" class="relative inline-flex items-center py-2 px-3 hover:text-secondary transition duration-300">
+                <img src="{{ asset('assets/svgs/home.svg') }}" alt="home" class="mr-2 w-5 h-5">{{ __('Home') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('product')" :active="request()->routeIs('product')" class="relative inline-flex items-center py-2 px-3 hover:text-secondary transition duration-300">
+                <img src="{{ asset('assets/svgs/ic-shopping-bag.svg') }}" alt="product" class="mr-2 w-5 h-5">{{ __('Product') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')" class="relative inline-flex items-center py-2 px-3 hover:bg-slate-700 hover:text-stone-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -115,27 +122,28 @@
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             @auth
             <div class="px-4">
+                <img src="{{ asset('assets/svgs/avatar.svg') }}" class="size-[35px] rounded-full mb-2" alt="">
                 <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('order.index')" :active="request()->routeIs('order.index')">
-                    {{ __('Orders') }}
+                <x-responsive-nav-link :href="route('order.index')" :active="request()->routeIs('order.*')" class="flex items-center ">
+                    <img src="{{ asset('assets/svgs/ic-note.svg') }}" alt="order" class="mr-2 w-5 h-5">{{ __('My Orders') }}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
-                    {{ __('Profile') }}
+                <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')" class="flex items-center">
+                    <img src="{{ asset('assets/svgs/ic-profile.svg') }}" alt="profile" class="mr-2 w-5 h-5">{{ __('Profile') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <x-responsive-nav-link :href="route('logout')"
+                    <x-responsive-nav-link :href="route('logout')" class="flex items-center"
                         onclick="event.preventDefault();
                                             this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        <img src="{{ asset('assets/svgs/logout.svg') }}" alt="" class="mr-2 w-5 h-5">{{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
             </div>

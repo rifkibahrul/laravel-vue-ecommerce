@@ -1,6 +1,6 @@
 <x-app-layout>
     <!-- Hero Section -->
-    <section class="hero h-[789px] bg-no-repeat bg-center lg:bg-cover xl:rounded-bl-[290px] relative" style="background-image: url('{{ asset('assets/images/bg-img.jpg') }}');">
+    <section class="hero h-[700px] bg-no-repeat bg-center lg:bg-cover xl:rounded-bl-[290px] relative" style="background-image: url('{{ asset('assets/images/bg-img.jpg') }}');">
         <div class="container mx-auto h-full flex items-center justify-center xl:justify-start">
             <!-- text -->
             <div class="hero__text w-[567px] flex flex-col items-center text-center xl:items-start">
@@ -119,7 +119,8 @@
 
     <!-- View product -->
     <section class="view-product mt-[80px] xl:mt-[150px] relative z-20">
-        <div class="view__bg container mx-auto rounded-[70px] py-[80px]" style="background-image: url('{{ asset('assets/images/Frame 6.jpg') }}');">
+        <div class="view__bg container mx-auto rounded-[70px] py-[80px] bg-cover bg-center"
+            style="background-image: url('{{ asset('assets/images/Frame 6.jpg') }}');">
             <div class="view__text max-w-[640px] mx-auto text-center">
                 <h2 class="text-[50px] mb-4 font-black leading-tight">Start Shopping Now!</h2>
                 <p class="text-[20px] mb-8 max-w-sm xl:max-w-none mx-auto">Get the best quality products at affordable prices, backed by our commitment to excellence and customer satisfaction</p>
