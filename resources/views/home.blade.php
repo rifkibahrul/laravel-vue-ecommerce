@@ -6,9 +6,11 @@
             <div class="hero__text w-[567px] flex flex-col items-center text-center xl:items-start">
                 <h1 class="text-[64px] lg:text-[84px] mb-8 font-extrabold leading-none text-center xl:text-left">We Are Here For Your Serve</h1>
                 <h2 class="text-[25px] leading-tight mb-8 text-center xl:text-left">We deliver The best quality product</h2>
+                @guest
                 <a href="{{ route('register') }}" class="font-bold relative h-[50px] w-40 overflow-hidden border border-secondary bg-white px-3 py-2 text-secondary shadow-2xl transition-all hover:text-white hover:shadow-secondary z-0 flex justify-center items-center rounded-xl bg-[length:0%_100%] bg-no-repeat bg-gradient-to-r from-secondary to-secondary hover:bg-[length:100%_100%] hover:duration-500">
                     <span class="relative z-10">Register <i class="ri-login-box-line text-lg"></i></span>
                 </a>
+                @endguest
             </div>
         </div>
     </section>

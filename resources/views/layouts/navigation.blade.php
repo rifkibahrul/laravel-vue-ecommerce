@@ -76,11 +76,11 @@
                     </x-slot>
                 </x-dropdown>
                 @else
-                <a href="{{ route('login') }}" class="relative inline-flex items-center justify-center overflow-hidden shadow-2xl transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-slate-700 before:duration-500 before:ease-out hover:shadow-slate-700 border border-slate-700 py-2 px-4 rounded hover:text-white hover:before:h-56 hover:before:w-56 ml-2">
-                    <span class="relative z-10">Masuk</span>
-                </a>
-                <a href="{{ route('register') }}" class="bg-slate-700 text-white relative inline-flex items-center justify-center overflow-hidden shadow-2xl transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-white before:duration-500 before:ease-out hover:shadow-slate-700 border border-slate-700 py-2 px-4 rounded hover:text-black hover:before:h-56 hover:before:w-56 ml-2">
-                    <span class="relative z-10">Daftar</span>
+                <!-- <a href="{{ route('login') }}" class="relative inline-flex items-center justify-center overflow-hidden shadow-2xl transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-slate-700 before:duration-500 before:ease-out hover:shadow-slate-700 border border-slate-700 py-2 px-4 rounded hover:text-white hover:before:h-56 hover:before:w-56 ml-2">
+                    <span class="relative z-10">Log In</span>
+                </a> -->
+                <a href="{{ route('login') }}" class="bg-slate-700 text-white relative inline-flex items-center justify-center overflow-hidden shadow-2xl transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-white before:duration-500 before:ease-out hover:shadow-slate-700 border border-slate-700 py-2 px-4 rounded-xl hover:text-black hover:before:h-56 hover:before:w-56 ml-2">
+                    <span class="relative z-10">Login</span>
                 </a>
                 @endauth
             </div>
@@ -119,7 +119,7 @@
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+        <div class="py-4 border-t border-gray-200 dark:border-gray-600">
             @auth
             <div class="px-4">
                 <img src="{{ asset('assets/svgs/avatar.svg') }}" class="size-[35px] rounded-full mb-2" alt="">
@@ -148,11 +148,11 @@
                 </form>
             </div>
             @else
-            <a href="{{ route('login') }}" class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 block px-4 py-2">
-                {{ __('Login') }}
+            <a href="{{ route('login') }}" class="relative inline-flex items-center justify-center overflow-hidden shadow-2xl transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-slate-700 before:duration-500 before:ease-out hover:shadow-slate-700 border border-slate-700 py-2 px-4 rounded-xl hover:text-white hover:before:h-56 hover:before:w-56 ml-5 md:ml-2">
+                <span class="relative z-10">Login</span>
             </a>
-            <a href="{{ route('register') }}" class="inline-flex items-center text-white bg-emerald-600 py-2 px-3 rounded shadow-md hover:bg-emerald-700 active:bg-emerald-800 transition-colors mx-5">
-                Register now
+            <a href="{{ route('register') }}" class="bg-slate-700 text-white relative inline-flex items-center justify-center overflow-hidden shadow-2xl transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-white before:duration-500 before:ease-out hover:shadow-slate-700 border border-slate-700 py-2 px-4 rounded-xl hover:text-black hover:before:h-56 hover:before:w-56 ml-2">
+                <span class="relative z-10">Register</span>
             </a>
             @endauth
         </div>
