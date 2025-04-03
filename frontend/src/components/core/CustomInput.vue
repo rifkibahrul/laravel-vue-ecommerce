@@ -3,7 +3,10 @@
         <label class="sr-only">{{ label }}</label>
         <div class="mt-1 flex rounded-md shadow-sm">
             <!-- Prepend (opsional) -->
-            <span v-if="prepend" class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+            <span
+                v-if="prepend"
+                class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
+            >
                 {{ prepend }}
             </span>
 
@@ -17,7 +20,11 @@
                     :class="inputClasses"
                     @change="onChange($event.target.value)"
                 >
-                    <option v-for="option of selectOptions" :key="option.key" :value="option.key">
+                    <option
+                        v-for="option of selectOptions"
+                        :key="option.key"
+                        :value="option.key"
+                    >
                         {{ option.text }}
                     </option>
                 </select>
@@ -43,7 +50,8 @@
                     :type="type"
                     :name="name"
                     :required="required"
-                    @change="onChange($event.target.files[0])"
+                    :multiple="multiple"
+                    @change="handleFileChange($event)"
                     :class="inputClasses"
                     :placeholder="label"
                 />
@@ -58,10 +66,14 @@
                         :type="type"
                         :checked="modelValue"
                         :required="required"
-                        @change="emit('update:modelValue', $event.target.checked)"
+                        @change="
+                            emit('update:modelValue', $event.target.checked)
+                        "
                         class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                     />
-                    <label :for="id" class="ml-2 block text-sm text-gray-900">{{ label }}</label>
+                    <label :for="id" class="ml-2 block text-sm text-gray-900">{{
+                        label
+                    }}</label>
                 </div>
             </template>
 
@@ -80,7 +92,10 @@
             </template>
 
             <!-- Append (opsional) -->
-            <span v-if="append" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+            <span
+                v-if="append"
+                class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
+            >
                 {{ append }}
             </span>
         </div>
@@ -116,6 +131,10 @@ const props = defineProps({
         type: String,
         default: () => `id-${Math.floor(1000000 + Math.random() * 1000000)}`,
     },
+    multiple: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 // Kelas untuk elemen input
@@ -139,8 +158,18 @@ const inputClasses = computed(() => {
 const emit = defineEmits(["update:modelValue", "change"]);
 
 // Event handler untuk input
-function onChange(value) {
-    emit("update:modelValue", value);
-    emit("change", value);
+function handleFileChange(event) {
+    const files = event.target.files;
+    if (!files || files.length === 0) {
+        emit("update:modelValue", props.multiple ? [] : null);
+        return;
+    }
+
+    if (props.multiple) {
+        emit("update:modelValue", Array.from(files));
+    } else {
+        emit("update:modelValue", files[0]);
+    }
+    emit("change", files);
 }
 </script>

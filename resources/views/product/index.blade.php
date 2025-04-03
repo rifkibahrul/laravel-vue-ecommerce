@@ -13,7 +13,7 @@
                     x-data="productItem({{ json_encode([
                             'id' => $product->id,
                             'slug' => $product->slug,
-                            'image' => $product->image,
+                            'image' => $product->first_image,
                             'title' => $product->title,
                             'price' => $product->price,
                             'addToCartUrl' => route('cart.add', $product),
@@ -24,7 +24,8 @@
                     }">
                     <!-- Image -->
                     <a href="{{ route('product.view', $product->slug) }}" class="aspect-w-3 aspect-h-2 block overflow-hidden rounded-lg">
-                        <img src="{{ asset($product->image) }}" alt="" class="object-cover h-52 rounded-lg hover:scale-105 hover:rotate-1 transition-transform w-full" />
+                        <!-- <img src="{{ asset($product->image) }}" alt="" class="object-cover h-52 rounded-lg hover:scale-105 hover:rotate-1 transition-transform w-full" /> -->
+                        <img src="{{ $product->first_image ? asset($product->first_image) : asset('path/to/default-image.jpg') }}" alt="{{ $product->title }}" class="object-cover h-52 rounded-lg hover:scale-105 hover:rotate-1 transition-transform w-full" />
                     </a>
                     <div class="flex-grow p-4 flex flex-col justify-between">
                         <!-- Title -->

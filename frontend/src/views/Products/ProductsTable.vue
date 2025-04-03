@@ -42,11 +42,11 @@
                         ID
                     </TableHeaderCell>
                     <TableHeaderCell
-                        field="image"
+                        field="images"
                         :sort-field="sortField"
                         :sort-direction="sortDirection"
                     >
-                        Image
+                        Images
                     </TableHeaderCell>
                     <TableHeaderCell
                         field="title"
@@ -89,11 +89,44 @@
                 <tr v-for="product of products.data" v-bind:key="product.id">
                     <td class="border-b p-2">{{ product.id }}</td>
                     <td class="border-b p-2">
-                        <img
+                        <!-- <img
                             class="w-16 h-16 object-cover"
                             :src="product.image_url"
                             :alt="product.title"
-                        />
+                        /> -->
+                        <div class="flex space-x-1 overflow-x-auto w-32">
+                            <template
+                                v-if="
+                                    Array.isArray(product.images) &&
+                                    product.images.length
+                                "
+                            >
+                                <img
+                                    v-for="(img, index) in product.images"
+                                    :key="index"
+                                    class="w-16 h-16 object-cover flex-shrink-0"
+                                    :src="img.url"
+                                    :alt="img.name || product.title"
+                                />
+                            </template>
+                            <template v-else-if="product.image_url">
+                                <!-- Fallback for legacy single image -->
+                                <img
+                                    class="w-16 h-16 object-cover"
+                                    :src="product.image_url"
+                                    :alt="product.title"
+                                />
+                            </template>
+                            <!-- <template v-else>
+                                <div
+                                    class="w-16 h-16 bg-gray-200 flex items-center justify-center"
+                                >
+                                    <span class="text-xs text-gray-500"
+                                        >No image</span
+                                    >
+                                </div>
+                            </template> -->
+                        </div>
                     </td>
                     <td
                         class="border-b p-2 max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis"
@@ -283,8 +316,8 @@ function showAddNewModal() {
 }
 
 // Edit data
-function updateProduct(p){
-    emit('clickEdit', p);
+function updateProduct(p) {
+    emit("clickEdit", p);
 }
 
 function formatRupiah(value) {
@@ -297,14 +330,12 @@ function formatRupiah(value) {
 }
 
 function deleteProduct(product) {
-    if(!confirm(`Are you sure you want to delete the product?`)) {
+    if (!confirm(`Are you sure you want to delete the product?`)) {
         return;
     }
-    store.dispatch('deleteProduct', product.id)
-        .then(res => {
-            // TODO NOTIFICATION
-            store.dispatch('getProducts')
-        })
+    store.dispatch("deleteProduct", product.id).then((res) => {
+        // TODO NOTIFICATION
+        store.dispatch("getProducts");
+    });
 }
-
 </script>

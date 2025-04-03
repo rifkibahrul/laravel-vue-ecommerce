@@ -70,10 +70,13 @@ export function getProducts(
 
 /* MENAMBAHKAN PRODUK */
 export function createProduct({ commit }, product) {
-    if (product.image instanceof File) {
+    if (product.images && product.images.length > 0) {
         const form = new FormData();
         form.append("title", product.title);
-        form.append("image", product.image);
+        // Append each image
+        product.images.forEach((image, index) => {
+            form.append(`images[${index}]`, image);
+        });
         form.append("description", product.description || "");
         form.append("price", product.price);
         form.append("published", product.published ? 1 : 0);

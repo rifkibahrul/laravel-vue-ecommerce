@@ -3,36 +3,36 @@
         <div x-data="productItem({{ json_encode([
                         'id' => $product->id,
                         'slug' => $product->slug,
-                        'image' => $product->image,
+                        'image' => $product->first_image,
                         'title' => $product->title,
                         'price' => $product->price,
                         'addToCartUrl' => route('cart.add', $product),
-                    ]) }})" 
-                    x-init="formatRupiah = (value) => {
+                    ]) }})"
+            x-init="formatRupiah = (value) => {
                         return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value);
                     }"
-                    class="container mx-auto">
+            class="container mx-auto">
             <div class="grid gap-6 grid-cols-1 lg:grid-cols-5">
                 <div class="lg:col-span-3">
                     <div
                         x-data="{
-                          images: ['{{$product->image}}'],
-                          activeImage: null,
-                          prev() {
-                              let index = this.images.indexOf(this.activeImage);
-                              if (index === 0)
-                                  index = this.images.length;
-                              this.activeImage = this.images[index - 1];
-                          },
-                          next() {
-                              let index = this.images.indexOf(this.activeImage);
-                              if (index === this.images.length - 1)
-                                  index = -1;
-                              this.activeImage = this.images[index + 1];
-                          },
-                          init() {
-                              this.activeImage = this.images.length > 0 ? this.images[0] : null
-                          }
+                            images: {{ json_encode($product->all_images) }}, // Ambil semua gambar dari accessor
+                            activeImage: null,
+                            prev() {
+                                let index = this.images.indexOf(this.activeImage);
+                                if (index === 0)
+                                    index = this.images.length;
+                                this.activeImage = this.images[index - 1];
+                            },
+                            next() {
+                                let index = this.images.indexOf(this.activeImage);
+                                if (index === this.images.length - 1)
+                                    index = -1;
+                                this.activeImage = this.images[index + 1];
+                            },
+                            init() {
+                                this.activeImage = this.images.length > 0 ? this.images[0] : null;
+                            }
                         }">
                         <!-- Main Image -->
                         <div class="relative">

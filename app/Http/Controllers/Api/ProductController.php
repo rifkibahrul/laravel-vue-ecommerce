@@ -39,20 +39,27 @@ class ProductController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
+    
     public function store(ProductRequest $request)
     {
         $data = $request->validated();
         $data['created_by'] = $request->user()->id;
         $data['updated_by'] = $request->user()->id;
 
-        $image = $data['image'] ?? null;
-        // Check if image was given and save on local file system
-        if ($image) {
-            $relativePath = $this->saveImage($image);
-            $data['image'] = URL::to(Storage::url($relativePath));
-            $data['image_mime'] = $image->getClientMimeType();
-            $data['image_size'] = $image->getSize();
+        // Handle multiple images
+        $images = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $relativePath = $this->saveImage($image);
+                $images[] = [
+                    'url' => URL::to(Storage::url($relativePath)),
+                    'mime' => $image->getClientMimeType(),
+                    'size' => $image->getSize(),
+                    'name' => $image->getClientOriginalName()
+                ];
+            }
         }
+        $data['images'] = $images;
 
         $product = Product::create($data);
 
@@ -78,8 +85,8 @@ class ProductController extends Controller
     {
         $data = $request->validated();
         $data['updated_by'] = $request->user()->id;
-        
-        /** @var \Illuminate\Http\UploadedFile $image */ 
+
+        /** @var \Illuminate\Http\UploadedFile $image */
         $image = $data['image'] ?? null;
 
         if ($image) {
@@ -108,13 +115,26 @@ class ProductController extends Controller
         return response()->noContent();
     }
 
-    private function saveImage(UploadedFile $image)
+    // private function saveImage(UploadedFile $image)
+    // {
+    //     $path = 'images/' . Str::random();
+    //     if (!Storage::exists($path)) {
+    //         Storage::makeDirectory($path, 0755, true);
+    //     }
+    //     if (!Storage::putFileAS('public/' . $path, $image, $image->getClientOriginalName())) {
+    //         throw new \Exception("Unable to save file \"{$image->getClientOriginalName()}\"");
+    //     }
+
+    //     return $path . '/' . $image->getClientOriginalName();
+    // }
+    private function saveImage($image)
     {
         $path = 'images/' . Str::random();
         if (!Storage::exists($path)) {
             Storage::makeDirectory($path, 0755, true);
         }
-        if (!Storage::putFileAS('public/' . $path, $image, $image->getClientOriginalName())) {
+
+        if (!Storage::putFileAs('public/' . $path, $image, $image->getClientOriginalName())) {
             throw new \Exception("Unable to save file \"{$image->getClientOriginalName()}\"");
         }
 

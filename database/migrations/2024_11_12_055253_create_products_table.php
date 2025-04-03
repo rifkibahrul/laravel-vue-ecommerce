@@ -16,9 +16,10 @@ return new class extends Migration
             $table->id();
             $table->string('title', 2000);
             $table->string('slug', 2000);
-            $table->string('image', 2000)->nullable();
-            $table->string('image_mime', 45)->nullable();
-            $table->integer('image_size')->nullable();
+            // $table->string('image', 2000)->nullable();
+            // $table->string('image_mime', 45)->nullable();
+            // $table->integer('image_size')->nullable();
+            $table->json('images')->nullable();
             $table->longText('description')->nullable();
             $table->integer('price');
             

@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Customer;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Customer;
+use App\Enums\CustomerStatus;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class AdminUserSeeder extends Seeder
 {
@@ -27,6 +28,7 @@ class AdminUserSeeder extends Seeder
             'user_id' => $user->id,
             'first_name' => $customer[0],
             'last_name' => $customer[1] ?? '',
+            'status' => CustomerStatus::Active->value,
         ]);
     }
 }

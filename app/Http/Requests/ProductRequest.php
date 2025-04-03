@@ -21,11 +21,22 @@ class ProductRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
+    // public function rules()
+    // {
+    //     return [
+    //         'title' => ['required', 'max:2000'],
+    //         'image' => ['nullable', 'image'],
+    //         'price' => ['required', 'numeric'],
+    //         'description' => ['nullable', 'string'],
+    //         'published' => ['required', 'boolean']
+    //     ];
+    // }
     public function rules()
     {
         return [
             'title' => ['required', 'max:2000'],
-            'image' => ['nullable', 'image'],
+            'images' => ['nullable', 'array'],
+            'images.*' => ['image', 'max:2048'], // each image max 2MB
             'price' => ['required', 'numeric'],
             'description' => ['nullable', 'string'],
             'published' => ['required', 'boolean']
